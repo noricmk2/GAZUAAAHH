@@ -10,6 +10,11 @@ public class BaseObject : MonoBehaviour
         get; set;
     }
 
+    public virtual void Init()
+    {
+
+    }
+
     public virtual void CustomUpdate()
     {
 

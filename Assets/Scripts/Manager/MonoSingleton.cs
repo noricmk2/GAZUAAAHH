@@ -49,4 +49,9 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
         _instance = null;
         shotdown = true;
     }
+
+    public virtual void CustomUpdate()
+    {
+
+    }
 }
