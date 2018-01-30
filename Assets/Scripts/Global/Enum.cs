@@ -19,3 +19,11 @@ public enum CoinTrend
     TREND_DOWN,
     TREND_EQUAL,
 }
+
+public enum AnimationType // 1/30일 오전 추가 
+{
+    TYPE_IDLE,
+    TYPE_ATTACK,
+    TYPE_DAMAGE,
+    TYPE_DEAD
+}
