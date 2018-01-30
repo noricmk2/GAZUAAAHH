@@ -1,16 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Enum : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+﻿
+public enum ObjectState
+{
+    OBJECT_STATE_NORMAL,
+    OBJECT_STATE_DEAD
 }

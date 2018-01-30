@@ -5,4 +5,13 @@ using UnityEngine;
 public class BaseObject : MonoBehaviour
 {
 
+    public ObjectState State
+    {
+        get; set;
+    }
+
+    public virtual void CustomUpdate()
+    {
+
+    }
 }
