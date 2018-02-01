@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 030f7ef338c714a428ee2c7e5d61c354
+guid: 04f4170fe4af5df49bf84fe5c3eb7f00
 timeCreated: 1516334815
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Base
     100002: Base 1
@@ -725,10 +725,102 @@ ModelImporter:
     13700054: Wheels.012
     13700056: Wheels.013
     13700058: Wheels.014
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 34efa1d0283fe2942ab40f245f83ce0a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blue Light
+    second: {fileID: 2100000, guid: ad8c0aaa75fe40e438b86927d73d63b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car Body
+    second: {fileID: 2100000, guid: c7e4cf3832b6830449eb0da617b23800, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car Head Lights
+    second: {fileID: 2100000, guid: 6697ed3794b32b747a9a1e5eca1ec4f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car Rear Lights
+    second: {fileID: 2100000, guid: 0643f3a64cb8c3048942c568bf1d7712, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car Underbody
+    second: {fileID: 2100000, guid: e4d7646de95ed404180f0c3ad40e989d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car Window
+    second: {fileID: 2100000, guid: db45fb2d307fa6d4b9053c38c69a96e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clouds 1
+    second: {fileID: 2100000, guid: 1f9a1eca23c2e354fbb0543fded2efc8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clouds 2
+    second: {fileID: 2100000, guid: 5d5a1ef6f71d2664f9e1a83d4c1d575c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Green
+    second: {fileID: 2100000, guid: dc7c5dbb46799ab49829f06cb35d23e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grey
+    second: {fileID: 2100000, guid: 4961c3e256226794d9e7db26478e7051, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red
+    second: {fileID: 2100000, guid: f45a3bae27e24cb4490e448d4e20eaac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red Light
+    second: {fileID: 2100000, guid: 9b91807b01d5ba04c833eac929998be6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: River
+    second: {fileID: 2100000, guid: 4cc36888704dc1d4f9c90f16f5c6a528, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sky
+    second: {fileID: 2100000, guid: 5a88152276703de44905f81700b6116c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tyre
+    second: {fileID: 2100000, guid: 2c449aba5dad9e4499df5b4e0a1a44ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wheel
+    second: {fileID: 2100000, guid: dd00be9c0c28c2d49b7ed4d60ee629f6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: 9510049d23c070a4e89b937c0e36168a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -741,6 +833,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -765,6 +858,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
