@@ -8,7 +8,7 @@ public class CoinManager : MonoSingleton<CoinManager>
 
     public void TestInit()
     {
-        DicCoin[CoinName.NEETCOIN] = new Coin(1000.0f, CoinName.NEETCOIN, new BaseSkill());
+        DicCoin[CoinName.NEETCOIN] = new Coin(10000.0f, CoinName.NEETCOIN, new BaseSkill());
         DicCoin[CoinName.ATHURIUM] = new Coin(1000.0f, CoinName.ATHURIUM, new BaseSkill());
     }
 

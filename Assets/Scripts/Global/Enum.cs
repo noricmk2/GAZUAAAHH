@@ -13,11 +13,23 @@ public enum CoinName
     AOS,
 }
 
-public enum CoinTrend
+public enum MicroCoinTrend
 {
-    TREND_UP,
-    TREND_DOWN,
-    TREND_EQUAL,
+    TREND_UP_MICRO,
+    TREND_DOWN_MICRO,
+    TREND_EQUAL_MICRO,
+}
+
+public enum MacroCoinTrend
+{
+    TREND_UP_MACRO,
+    TREND_DOWN_MACRO,
+    TREND_EQUAL_MACRO,
+}
+
+public enum GraphTarget
+{
+    GRAPH_COIN,
 }
 
 public enum AnimationType // 1/30일 오전 추가 

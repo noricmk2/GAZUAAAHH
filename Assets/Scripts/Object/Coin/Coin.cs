@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Coin
 {
     CoinMarketInfo _marketInfo;
+    public Image GraphUI
+    {
+        get; set;
+    }
+
     public CoinMarketInfo MarketInfo //코인의 시장정보. 가격, 시세차, 시세등의 정보가 들어있음
     {
         get { return _marketInfo; }
@@ -20,7 +26,7 @@ public class Coin
         get; set;
     }
 
-    public BaseSkill CoinSkill //코인이 가진 개별적이 스킬
+    public BaseSkill CoinSkill //코인이 가진 개별적인 스킬
     {
         get; set;
     }

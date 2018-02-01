@@ -5,22 +5,29 @@ using UnityEngine;
 public class MarketManager : MonoSingleton<MarketManager>
 {
     Dictionary<CoinName, Coin> DicCoin; //코인이름으로 코인을 저장하는 딕셔너리
-    int graphY = 0;
+    Grapher graph;
 
-    public GameObject graphCube;
-
-    public void MarketInit()
+    public void MarketInit() //초기화
     {
         DicCoin = CoinManager.Instance.GetCoinDictionary();
-        graphCube = Resources.Load("Prefab/Cube") as GameObject;
+        graph = GameManager.Instance.CoinGraph;
     }
 
-    public override void CustomUpdate()
+    public override void CustomUpdate() //마켓매니저의 커스텀업데이트
     {
         if(Input.GetKeyDown(KeyCode.Space) == true)
         {
             ChangeMarketInfo(CoinName.NEETCOIN);
-            RenderGraph(CoinName.NEETCOIN);
+            RenderLineGraph(CoinName.NEETCOIN);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F1) == true)
+        {
+            DicCoin[CoinName.NEETCOIN].MarketInfo.CurrentMacroTrend = MacroCoinTrend.TREND_UP_MACRO;
+        }
+        if (Input.GetKeyDown(KeyCode.F2) == true)
+        {
+            DicCoin[CoinName.NEETCOIN].MarketInfo.CurrentMacroTrend = MacroCoinTrend.TREND_DOWN_MACRO;
         }
     }
 
@@ -45,19 +52,69 @@ public class MarketManager : MonoSingleton<MarketManager>
             return;
         }
 
+        //시세에 따른 변동폭 변동량
+        int digit = Util.CalculDigit((int)cmInfo.CurrentPrice);
+        int fluc = 0;
+
+        switch (digit)
+        {
+            case 1:
+            case 2:
+            case 3:
+                fluc = 10;
+                break;
+            case 4:
+                fluc = 100;
+                break;
+            case 5:
+                fluc = 1000;
+                break;
+            case 6:
+                fluc = 10000;
+                break;
+            case 7:
+                fluc = 100000;
+                break;
+        }
+        
+        //거시적 시세가 상승세면 변동폭을 올리고, 하락세면 변동폭을 내린다
+        switch (cmInfo.CurrentMacroTrend)
+        {
+            case MacroCoinTrend.TREND_UP_MACRO:
+                cmInfo.MaxFlucRange += fluc;
+                cmInfo.MinFlucRange += fluc;
+                break;
+            case MacroCoinTrend.TREND_DOWN_MACRO:
+                cmInfo.MaxFlucRange -= fluc;
+                cmInfo.MinFlucRange -= fluc;
+                break;
+            case MacroCoinTrend.TREND_EQUAL_MACRO:
+                break;
+        }
+
+        //코인의 가격 대입
         cmInfo.PrevPrice = cmInfo.CurrentPrice;
-        cmInfo.CurrentPrice = CalculRandomNoise(CoinName.NEETCOIN);
+        float setPrice = CalculRandomNoise(CoinName.NEETCOIN);
+        if (setPrice < 10)
+        {
+            cmInfo.CurrentMacroTrend = MacroCoinTrend.TREND_UP_MACRO;
+            setPrice = 10;
+        }
+        cmInfo.CurrentPrice = setPrice;
+        cmInfo.AddPriceList(setPrice);
         Debug.Log(cmInfo.CurrentPrice);
 
+        //이전 시세와의 차를 계산
         float differ = cmInfo.CurrentPrice - cmInfo.PrevPrice;
         cmInfo.DifferPrice = differ;
 
+        //이전 시세와의 변동치가 음수면 트렌드를 하락세, 양수면 상승세로 설정
         if (differ < 0)
-            cmInfo.CurrentTrend = CoinTrend.TREND_DOWN;
+            cmInfo.CurrentMicroTrend = MicroCoinTrend.TREND_DOWN_MICRO;
         else if (differ > 0)
-            cmInfo.CurrentTrend = CoinTrend.TREND_UP;
+            cmInfo.CurrentMicroTrend = MicroCoinTrend.TREND_UP_MICRO;
         else
-            cmInfo.CurrentTrend = CoinTrend.TREND_EQUAL;
+            cmInfo.CurrentMicroTrend = MicroCoinTrend.TREND_EQUAL_MICRO;
     }
 
     float CalculRandomNoise(CoinName name) //시세의 랜덤값을 계산해주는 메서드
@@ -75,20 +132,23 @@ public class MarketManager : MonoSingleton<MarketManager>
             return 0;
         }
 
+        //그래프를 그리기 위한 시드값 변경
         coin.Seed1 += 1;
-        coin.Seed2 += 0.1f;
+        coin.Seed2 += 0.2f;
 
         n1 = Mathf.PerlinNoise(coin.Seed1, 1);
         n2 = Mathf.PerlinNoise(coin.Seed2, 1);
 
+        //두 랜덤값을 더해서 보정해준뒤 정규화
         result = (n1 + n2) / 2;
 
-        result = Mathf.Lerp(0, 10, Mathf.InverseLerp(0, 1, result));
+        //1~0사이인 결과값을 inverselerp로 퍼센테이지로 변경, lerp로 실제값으로 다시 변경
+        result = Mathf.Lerp(coin.MarketInfo.MinFlucRange, coin.MarketInfo.MaxFlucRange, Mathf.InverseLerp(0, 1, result));
 
         return result;
     }
 
-    public void RenderGraph(CoinName name) //시세 그래프를 그리는 메서드
+    public void RegistLineGraph(CoinName name, Transform target) //UI정보와 코인매개변수를 받아 그래프를 세팅하는 메서드
     {
         CoinMarketInfo cmInfo;
 
@@ -102,7 +162,28 @@ public class MarketManager : MonoSingleton<MarketManager>
             return;
         }
 
-        Vector3 graphX = new Vector3(++graphY, cmInfo.CurrentPrice, 0);
-        Instantiate(graphCube, graphX, Quaternion.identity);
+        target.gameObject.AddComponent<Grapher>();
+        Grapher grapher = target.GetComponent<Grapher>();
+
+        grapher.SetGraphTarget(GraphTarget.GRAPH_COIN, DicCoin[name], target);
+    }
+
+    public void RenderLineGraph(CoinName name) //그래퍼에게 그래프 값을 갱신하며 렌더를 요청하는 메서드
+    {
+        Coin coin;
+
+        if (DicCoin.ContainsKey(name) == true)
+        {
+            coin = DicCoin[name];
+        }
+        else
+        {
+            Debug.LogError(name.ToString() + " is not exist");
+            return;
+        }
+
+        Grapher grapher = coin.GraphUI.gameObject.GetComponent<Grapher>();
+        grapher.SetDraw = true;
+        grapher.RenewValue(coin.MarketInfo, GraphTarget.GRAPH_COIN);
     }
 }
