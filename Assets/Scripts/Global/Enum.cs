@@ -38,4 +38,17 @@ public enum AnimationType // 1/30일 오전 추가
     TYPE_ATTACK,
     TYPE_DAMAGE,
     TYPE_DEAD
+}   
+
+public enum CharacterState
+{
+    TYPE_IDLE,
+    TYPE_BATTLE,
+    TYPE_DEAD,
+}
+
+public enum CoinBattleType
+{
+    TYPE_ATTACK_COIN,
+    TYPE_DEFFENCE_COIN,
 }

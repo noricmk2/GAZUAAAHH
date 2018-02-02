@@ -26,6 +26,16 @@ public class Coin
         get; set;
     }
 
+    public int SelectAmount //배틀중에 선택한 코인의 양
+    {
+        get; set;
+    }
+
+    public CoinBattleType BattleType //배틀중에 선택한 코인의 전투타입
+    {
+        get; set;
+    }
+
     public BaseSkill CoinSkill //코인이 가진 개별적인 스킬
     {
         get; set;
