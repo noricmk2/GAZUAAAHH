@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationPlayer {
+public class AnimationPlayer : BaseObject{
 
     AnimationType animationType;
     Animator targetAnimator;
+    bool animationEnd;
+    public bool AnimationEnd
+    {
+       get { return animationEnd;}
+    }
     float time;
+
    
 	public void Init(GameObject _target) // 애니메이션 실행할 오브젝트를 받아옴
     {
@@ -15,7 +21,13 @@ public class AnimationPlayer {
         
         targetAnimator.SetInteger("State", (int)animationType);
         time = 0;
-  
+        animationEnd = false;
+
+    }
+
+    public void Update()
+    {
+        CustomUpdate();
     }
 
     public void PlayAnimation(AnimationType type)//실행할 애니메이션 타입 선택
@@ -24,9 +36,9 @@ public class AnimationPlayer {
         targetAnimator.SetInteger("State", (int)animationType);        
     }
 
-    public void CustomUpdate()//애니메이션 실행
+    public override void CustomUpdate()//애니메이션 실행
     {
-
+        animationEnd = false;
         if (animationType == AnimationType.TYPE_DEAD) //사망 애니메이션
             return;
 
@@ -39,6 +51,7 @@ public class AnimationPlayer {
             {
                 targetAnimator.SetInteger("State", (int)AnimationType.TYPE_IDLE);
                 time = 0;
+                animationEnd = true;
             }         
         }
     }
