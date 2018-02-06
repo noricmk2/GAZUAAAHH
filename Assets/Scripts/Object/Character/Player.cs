@@ -5,7 +5,11 @@ using UnityEngine;
 public class Player : Character
 {
 
-
+    public override void Init()
+    {
+        base.Init();
+        characterType = CharacterType.TYPE_PLAYER;
+    }
 
     public override void SelectCoin() //사용할 코인 선택
     {
@@ -44,9 +48,6 @@ public class Player : Character
             listSelectCoins.Add(coin);
         }
         //코인을 선택했으면 캐릭터 상태를 Battle로 바꿈
-
-        
-
         characterState = CharacterState.TYPE_BATTLE;
     }
 }

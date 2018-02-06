@@ -6,16 +6,23 @@ public class Character : BaseObject
 {
     protected AnimationPlayer animationPlayer;
     public Character target;
-    protected Dictionary<CoinName, Coin> DicCoin;
+    public Dictionary<CoinName, Coin> DicCoin
+    {
+        get; set;
+    }
     public float mentalPoint; // 멘탈치 HP개념
     protected int cost;
     float Asset; //자산
+
+    public CharacterType characterType
+    {
+        get; set;
+    }
 
     public List<Coin> listSelectCoins //공격할 코인을 저장하는 변수
     {
         get; set;
     }
-
 
     public void Start()
     {

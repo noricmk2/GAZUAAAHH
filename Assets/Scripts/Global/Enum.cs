@@ -52,3 +52,11 @@ public enum CoinBattleType
     TYPE_ATTACK_COIN,
     TYPE_DEFFENCE_COIN,
 }
+
+public enum CharacterType //02/06 추가
+{
+    TYPE_PLAYER,
+    TYPE_ENEMY1,
+    TYPE_ENEMY2,
+    TYPE_ENEMY3
+}
