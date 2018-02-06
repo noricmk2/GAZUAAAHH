@@ -1,0 +1,24 @@
+{
+	"COIN_TEMPLATE": {
+		"NEETCOIN": {
+			"Price": 1000,
+			"Skill": 1,
+			"Amount": 10
+		},
+		"ATHURIUM": {
+			"Price": 500,
+			"Skill": 2,
+			"Amount": 100
+		},
+		"SUFFLE": {
+			"Price": 100,
+			"Skill": 3,
+			"Amount": 200
+		},
+		"AOS": {
+			"Price": 150,
+			"Skill": 4,
+			"Amount": 300
+		}
+	}
+}
