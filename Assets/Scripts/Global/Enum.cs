@@ -53,10 +53,31 @@ public enum CoinBattleType
     TYPE_DEFFENCE_COIN,
 }
 
+public enum CoinAnimType
+{
+    TYPE_BASE_ATTACK_ANIM,
+    TYPE_BASE_DEFFENCE_ANIM,
+    TYPE_GATE_BABYLON_ANIM,
+}
+
+public enum UIType
+{
+    TYPE_UI_TITLE,
+    TYPE_UI_BATTLE,
+    TYPE_UI_TRADE,
+    TYPE_UI_ROBBY,
+}
+
 public enum CharacterType //02/06 추가
 {
     TYPE_PLAYER,
     TYPE_ENEMY1,
     TYPE_ENEMY2,
     TYPE_ENEMY3
+}
+
+public enum ChoicePanelType
+{
+    TYPE_ATTACK_PANEL,
+    TYPE_DEFFENCE_PANEL,
 }
