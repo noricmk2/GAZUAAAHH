@@ -22,4 +22,24 @@ public static class Util //유용한 메서드 모음
 
         return digit;
     }
+
+    public static int[] GetRandomIndex(int start, int end) //랜덤한 인덱스 리스트를 넘겨주는 메서드
+    {
+        int[] index = new int[end - start];
+
+        for (int i = 0; i < index.Length; ++i)
+            index[i] = i + 1;
+
+        for (int i = 0; i < 20; ++i)
+        {
+            int src = Random.Range(0, index.Length);
+            int dest = Random.Range(0, index.Length);
+
+            int temp = index[src];
+            index[src] = index[dest];
+            index[dest] = temp;
+        }
+
+        return index;
+    }
 }
