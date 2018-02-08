@@ -7,6 +7,7 @@ public static class ConstValue
     public static string BattleUIPath = "Prefab/UI/BattleCanvas";
     public static string CoinUIPath = "Prefab/UI/CoinItem";
     public static string PopupUIPath = "Prefab/UI/Popup";
+    public const string coinpath = "JsonTemplate/COIN_TEMPLATE";
 
     public static int FirstRound = 7;
     public static int SecondRound = 19;
