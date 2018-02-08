@@ -81,3 +81,11 @@ public enum ChoicePanelType
     TYPE_ATTACK_PANEL,
     TYPE_DEFFENCE_PANEL,
 }
+
+public enum CoinInfo // 02/05일 추가
+{
+    Price,
+    Skill,
+    Amount,
+    MAX
+}
