@@ -49,6 +49,7 @@ public enum CharacterState
 
 public enum CoinBattleType
 {
+    TYPE_NORMAL_COIN,
     TYPE_ATTACK_COIN,
     TYPE_DEFFENCE_COIN,
 }
@@ -63,7 +64,8 @@ public enum CoinAnimType
 public enum UIType
 {
     TYPE_UI_TITLE,
-    TYPE_UI_BATTLE,
+    TYPE_UI_BATTLE_WAIT,
+    TYPE_UI_BATTLE_ATTACK,
     TYPE_UI_TRADE,
     TYPE_UI_ROBBY,
 }
@@ -80,6 +82,13 @@ public enum ChoicePanelType
 {
     TYPE_ATTACK_PANEL,
     TYPE_DEFFENCE_PANEL,
+}
+
+public enum Stage
+{
+    STAGE1,
+    STAGE2,
+    STAGE3,
 }
 
 public enum CoinInfo // 02/05일 추가
