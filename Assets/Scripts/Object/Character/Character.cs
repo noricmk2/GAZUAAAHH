@@ -17,7 +17,8 @@ public class Character : BaseObject
     public CharacterType characterType{ get; set; }
     public List<Coin> listSelectCoins{ get; set; }//공격할 코인을 저장하는 변수    
     public CharacterState characterState; //캐릭터 상태(배틀매니저가 사용)
-    
+
+
     public override void Init()
     {
         animationPlayer = GetComponent<AnimationPlayer>();
@@ -45,8 +46,12 @@ public class Character : BaseObject
     {
         if (isAttack == true && target.isAttack == true) //플레이어와 에너미 둘다 공격을 실행했을 때
         {
-            if(animationPlayer.IsAnimationPlay == false) //애니메이션 실행 중이 아닐때
-                characterState = CharacterState.TYPE_IDLE; //캐릭터 상태를 IDLE로 변경   
+            if (animationPlayer.IsAnimationPlay == false && target.animationPlayer.IsAnimationPlay == false) //애니메이션 실행 중이 아닐때
+            {
+                characterState = CharacterState.TYPE_IDLE;
+                if (characterType == CharacterType.TYPE_PLAYER)
+                    BattleManager.Instance.TurnEnd();
+            }
             return;
         }
 
