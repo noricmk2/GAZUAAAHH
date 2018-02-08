@@ -5,12 +5,10 @@ using UnityEngine;
 public class MarketManager : MonoSingleton<MarketManager>
 {
     Dictionary<CoinName, Coin> DicCoin; //코인이름으로 코인을 저장하는 딕셔너리
-    Grapher graph;
 
     public void MarketInit() //초기화
     {
         DicCoin = CoinManager.Instance.GetCoinDictionary();
-        graph = GameManager.Instance.CoinGraph;
     }
 
     public override void CustomUpdate() //마켓매니저의 커스텀업데이트
@@ -185,5 +183,10 @@ public class MarketManager : MonoSingleton<MarketManager>
         Grapher grapher = coin.GraphUI.gameObject.GetComponent<Grapher>();
         grapher.SetDraw = true;
         grapher.RenewValue(coin.MarketInfo, GraphTarget.GRAPH_COIN);
+    }
+
+    public bool TradeCoin(Character target, CoinName name, float tradeAmount)
+    {
+        return false;
     }
 }

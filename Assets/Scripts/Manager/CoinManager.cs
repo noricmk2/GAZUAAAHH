@@ -1,18 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SimpleJSON; //json 사용하기 위해 추가
+using SimpleJSON;
 
 public class CoinManager : MonoSingleton<CoinManager>
 {
     Dictionary<CoinName, Coin> DicCoin = new Dictionary<CoinName, Coin>();
     Dictionary<string, CoinTemplateData> dicTemplateData = new Dictionary<string, CoinTemplateData>(); //코인정보를 외부에서 받아올 dictionary
 
-    public void TestInit() //json 데이터를 받아와서 DicCoin에 저장
-    {
-       
-        
-    }
     public void CoinInit() //코인 정보 초기화
     {
         TextAsset coinText = Resources.Load(ConstValue.coinpath) as TextAsset;
