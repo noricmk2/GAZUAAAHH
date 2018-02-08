@@ -21,12 +21,17 @@ public class Coin
         get; set;
     }
 
-    public int CoinAmount //코인의 총량
+    public int CoinAmount //캐릭터가 가진 코인의 총량
     {
         get; set;
     }
 
-    public int SelectAmount //배틀중에 선택한 코인의 양
+    public int CoinAmountInBattle //배틀중에 캐릭터가 가진 코인의 총량
+    {
+        get; set;
+    }
+
+    public float SkillAffectPrice //코인의 스킬에 영향을 받은 가격
     {
         get; set;
     }
@@ -58,5 +63,6 @@ public class Coin
         CoinSkill = skill;
         Seed1 = Random.Range(0, 100);
         Seed2 = Seed1;
+        BattleType = CoinBattleType.TYPE_NORMAL_COIN;
     }
 }
