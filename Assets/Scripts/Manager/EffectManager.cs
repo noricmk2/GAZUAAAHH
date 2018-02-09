@@ -12,7 +12,7 @@ public class EffectManager : MonoSingleton<EffectManager>
     }
 
     public void CreateEffect(Vector3 _position, float _playTime, string _path)
-    {        
+    {   
         GameObject effect = Instantiate(Resources.Load(_path) as GameObject);
 
         effect.AddComponent<BaseEffect>();

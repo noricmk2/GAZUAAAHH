@@ -7,6 +7,8 @@ public static class ConstValue
     public const string BattleUIPath = "Prefab/UI/BattleCanvas";
     public const string CoinUIPath = "Prefab/UI/CoinItem";
     public const string PopupUIPath = "Prefab/UI/Popup";
+    public const string GraphUIPath_Battle = "Prefab/UI/CoinGraph";
+    public const string GraphUICameraPath = "Prefab/UI/GraphCamera";
 
     public const string PlayerPrefabPath = "Import/Player/Models/MazeLowMan";
     public const string Enemy1PrefabPath = "Import/Enemies/Brute Warrior/Prefabs/Brute Warrior";

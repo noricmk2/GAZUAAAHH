@@ -25,7 +25,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler , IDragHandler, IEndDr
         dragObject.transform.SetParent(CanvasTrans);
 
         //드래그시 레이캐스트가 드래그 오브젝트에게 막히는걸 방지
-        //dragObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        dragObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
         if(orgImage != null)
             orgImage.enabled = false;
@@ -40,7 +40,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler , IDragHandler, IEndDr
 
     public void OnEndDrag(PointerEventData eventData) //드래그가 끝날시 복제된 오브젝트를 삭제하고 원본의 이미지와 텍스트를 재활성화
     {
-        //dragObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        dragObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
         Destroy(dragObject);
         if (orgImage != null)
             orgImage.enabled = true;

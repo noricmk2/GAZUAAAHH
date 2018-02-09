@@ -21,7 +21,7 @@ public class CoinSetPanel : MonoBehaviour
     {
         costText = this.transform.GetChild(1).GetComponent<Text>();
         coinAmountSlider = this.transform.GetComponentInChildren<Slider>();
-        playerCharacter = GameManager.Instance.GetCharcter(CharacterType.TYPE_PLAYER) as Player;
+        playerCharacter = GameManager.Instance.PlayerCharacter;
 
         CoinName parseEnum = (CoinName)System.Enum.Parse(typeof(CoinName), cName);
         settingCoin = playerCharacter.DicCoin[parseEnum];
@@ -85,7 +85,10 @@ public class CoinSetPanel : MonoBehaviour
 
     public void FinalConfirm()
     {
-        BattleManager.Instance.BattleStart();
+        GameObject obj = new GameObject();
+        CoinSetPanel comp = obj.AddComponent<CoinSetPanel>();
+        if(comp != null)
+            comp.StartCoroutine(BattleManager.Instance.BattleStart());
     }
 
     public void ChangeSliderValue()

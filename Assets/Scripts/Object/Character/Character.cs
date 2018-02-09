@@ -7,6 +7,7 @@ public class Character : BaseObject
     protected AnimationPlayer animationPlayer;
     public Character target;
     public Dictionary<CoinName, Coin> DicCoin{ get; set;}
+    [System.NonSerialized]
     public float mentalPoint; // 멘탈치 HP개념
     public int cost{ get; set;} //코스트
 
@@ -16,18 +17,17 @@ public class Character : BaseObject
 
     public CharacterType characterType{ get; set; }
     public List<Coin> listSelectCoins{ get; set; }//공격할 코인을 저장하는 변수    
-    public CharacterState characterState; //캐릭터 상태(배틀매니저가 사용)
 
 
     public override void Init()
     {
+        listSelectCoins = new List<Coin>();
         animationPlayer = GetComponent<AnimationPlayer>();
-        animationPlayer.Init(gameObject);
+        animationPlayer.Init();
         //TODO 코인 매니저에서 코인정보 획득
 
         mentalPoint = 100; //임시 값
         cost = 3; //임시 값
-        characterState = CharacterState.TYPE_IDLE;
     }
 
     public virtual void SelectCoin() //드로우한 코인중 사용할 코인 선택
@@ -48,7 +48,6 @@ public class Character : BaseObject
         {
             if (animationPlayer.IsAnimationPlay == false && target.animationPlayer.IsAnimationPlay == false) //애니메이션 실행 중이 아닐때
             {
-                characterState = CharacterState.TYPE_IDLE;
                 if (characterType == CharacterType.TYPE_PLAYER)
                     BattleManager.Instance.TurnEnd();
             }
@@ -105,6 +104,5 @@ public class Character : BaseObject
         //TODO 사망 애니메이션 출력
         animationPlayer.PlayAnimation(AnimationType.TYPE_DEAD);
         //사망 애니메이션 종료후 게임 매니저에서 전투종료 화면 출력
-        characterState = CharacterState.TYPE_DEAD;
     }    
 }

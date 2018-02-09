@@ -13,6 +13,13 @@ public class BattleCanvas : MonoBehaviour
     CoinSetPanel coinSetPanel;
     Animation[] UIAnimations = new Animation[5];
 
+    float _uiTime;
+    public float UIAnimTime
+    {
+        get { return _uiTime; }
+    }
+    bool disappearAnim = false;
+
     private void Awake()
     {
         turnText = this.transform.GetChild(0).GetComponent<Text>();
@@ -29,11 +36,22 @@ public class BattleCanvas : MonoBehaviour
         UIAnimations[4] = coinScrollObj.transform.GetComponent<Animation>();
     }
 
-    public void PlayReverseAnimation()
+    private void Update()
+    {
+        if (disappearAnim && UIAnimTime < 1.0f)
+        {
+            _uiTime += Time.deltaTime;
+        }
+    }
+
+    public void PlayDisappearAnimation()
     {
         for (int i = 0; i < UIAnimations.Length; ++i)
         {
             Animation anim = UIAnimations[i];
+            if (anim.gameObject.name.Contains("HUD"))
+                continue;
+
             string clipName = anim.gameObject.name + "Appear";
             anim[clipName].speed = -1;
             anim[clipName].time = anim[clipName].length;
@@ -41,7 +59,7 @@ public class BattleCanvas : MonoBehaviour
         }
     }
 
-    public void PlayAnimation()
+    public void PlayAppearAnimation()
     {
         for (int i = 0; i < UIAnimations.Length; ++i)
         {
@@ -51,6 +69,25 @@ public class BattleCanvas : MonoBehaviour
             anim[clipName].time = 0;
             anim.Play(clipName);
         }
+    }
+
+    public void ShakeUI(BattleSceneUI ui, float Intensity, float decay)
+    {
+
+    }
+
+    public void PlayerHudAnimation(float value, bool isPlayerHUD)
+    {
+        Slider animatedSlider;
+
+        if (isPlayerHUD)
+            animatedSlider = playerHUD;
+        else
+            animatedSlider = enemyHUD;
+
+        animatedSlider.value -= value;
+
+        ShakeUI(BattleSceneUI.UI_PLAYER_HUD, 0.1f, 0.002f);
     }
 
     public Text GetTurnText()
@@ -80,7 +117,7 @@ public class BattleCanvas : MonoBehaviour
             Debug.LogError("PlayerHUD is not exist");
             return null;
         }
-        return enemyHUD;
+        return playerHUD;
     }
 
     public GameObject GetChoicePanel()

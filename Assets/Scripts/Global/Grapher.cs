@@ -146,7 +146,7 @@ public class Grapher : MonoBehaviour
                     //정점리스트를 초기화
                     Vector3 tempPos = rectTrans.position;
                     tempPos.x = rectTrans.rect.width * -0.5f;
-                    tempPos.z += 0.1f;
+                    //tempPos.z += 1f;
                     for (int i =0; i < priceList.Count; ++i)
                     {
                         float per = Mathf.InverseLerp(cmInfo.MinFlucRange, cmInfo.MaxFlucRange, priceList[i]);

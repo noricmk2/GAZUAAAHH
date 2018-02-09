@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class BattleManager : MonoSingleton<BattleManager>
 {
-    Enemy enemy; //현재 스테이지의 에너미
-    Player player; //플레이어
-    int _currentTurn; //현재 진행턴
+    GameObject enemyPrefab;
 
-    public int CurrentTurn
+    Player player; //플레이어
+
+    Enemy _enemy; 
+    public Enemy EnemyCharacter //현재 스테이지의 에너미
+    {
+        get { return _enemy; }
+    }
+
+    int _currentTurn; 
+    public int CurrentTurn //현재 진행턴
     {
         get { return _currentTurn; }
     }
@@ -22,21 +29,26 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         _currentTurn = 1;
 
-        player = GameManager.Instance.GetCharcter(CharacterType.TYPE_PLAYER) as Player;
+        player = GameManager.Instance.PlayerCharacter;
 
         //스테이지에 따른 에너미 할당
         switch (stage)
         {
             case Stage.STAGE1:
-                enemy = GameManager.Instance.GetCharcter(CharacterType.TYPE_ENEMY1) as Enemy;
+                enemyPrefab = GameManager.Instance.GetCharacterPrefab(CharacterType.TYPE_ENEMY1);
                 break;
             case Stage.STAGE2:
-                enemy = GameManager.Instance.GetCharcter(CharacterType.TYPE_ENEMY2) as Enemy;
+                enemyPrefab = GameManager.Instance.GetCharacterPrefab(CharacterType.TYPE_ENEMY2);
                 break;
             case Stage.STAGE3:
-                enemy = GameManager.Instance.GetCharcter(CharacterType.TYPE_ENEMY3) as Enemy;
+                enemyPrefab = GameManager.Instance.GetCharacterPrefab(CharacterType.TYPE_ENEMY3);
                 break;
         }
+
+        _enemy = Instantiate(enemyPrefab).GetComponent<Enemy>();
+        _enemy.Init();
+        _enemy.target = player;
+        player.target = _enemy;
 
         //턴 갱신과 UI세팅
         TurnChange();
@@ -45,15 +57,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public override void CustomUpdate()
     {
-         switch(player.characterState)
-         {
-            case CharacterState.TYPE_IDLE:
-                break;
-            case CharacterState.TYPE_BATTLE:
-                break;
-            case CharacterState.TYPE_DEAD:
-                break;
-         }
+
     }
 
     void TurnChange() //턴 갱신용 메서드
@@ -81,13 +85,17 @@ public class BattleManager : MonoSingleton<BattleManager>
             CurrentTurnCost = ConstValue.TenthTurnCost;
     }
 
-    public void BattleStart() //모든 입력이 끝나고 전투에 돌입했을시의 실행 메서드
+    public IEnumerator BattleStart() //모든 입력이 끝나고 전투에 돌입했을시의 실행 메서드
     {
         //전투용UI로 변경
         UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_ATTACK);
 
+        yield return new WaitForSeconds(1);
+
+        UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH);
+
         //에너미의 AI실행
-        enemy.SelectCoin();
+        _enemy.SelectCoin();
 
         //양측의 전투 코인 정보를 받아옴
         List<Coin> listPlayerCoin = new List<Coin>();
@@ -98,7 +106,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             listPlayerCoin.Add(pair.Value);
         }
 
-        foreach (KeyValuePair<CoinName, Coin> pair in enemy.DicCoin)
+        foreach (KeyValuePair<CoinName, Coin> pair in _enemy.DicCoin)
         {
             listEnemyCoin.Add(pair.Value);
         }
@@ -131,6 +139,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
                 enemyDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
         }
+
+        player.SetBattlePoint(playerAttackPoint, playerDeffencePoint);
+        _enemy.SetBattlePoint(enemyAttackPoint, enemyDeffencePoint);
     }
 
     public void TurnEnd()

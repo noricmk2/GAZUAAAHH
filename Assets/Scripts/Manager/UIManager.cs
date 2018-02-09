@@ -6,9 +6,15 @@ using UnityEngine.Events;
 
 public class UIManager : MonoSingleton<UIManager>
 {
+    bool tempBool = false;
+    float tempTime = 0;
+
     GameObject battleCanvasPrefab; //전투씬UI의 프리팹
     GameObject UICoinPrefab; //전투씬에서 동적으로 생성할 코인목록의 아이템 
     GameObject popupPrefab; //팝업창의 프리팹
+    GameObject graphPrefab_battle; //그래프의 프리팹
+    GameObject graphCameraPrefab;
+    Transform GraphCanvasTrans;
 
     public GameObject CurrentUIScreen //현재의 UI씬
     {
@@ -20,6 +26,9 @@ public class UIManager : MonoSingleton<UIManager>
         battleCanvasPrefab = Resources.Load(ConstValue.BattleUIPath) as GameObject;
         UICoinPrefab = Resources.Load(ConstValue.CoinUIPath) as GameObject;
         popupPrefab = Resources.Load(ConstValue.PopupUIPath) as GameObject;
+        graphPrefab_battle = Resources.Load(ConstValue.GraphUIPath_Battle) as GameObject;
+        graphCameraPrefab = Resources.Load(ConstValue.GraphUICameraPath) as GameObject;
+
     }
 
     public void SetSceneUI(UIType uiType) //요청한 UI타입대로 UI화면을 세팅하는 메서드
@@ -30,6 +39,7 @@ public class UIManager : MonoSingleton<UIManager>
                 break;
             case UIType.TYPE_UI_BATTLE_WAIT: //배틀씬중 입력대기상태 UI
                 {
+                    BattleCanvas battleCanvas = null;
                     // 현재의 UI화면이 없거나 배틀UI가 아닐경우
                     if (CurrentUIScreen == null || CurrentUIScreen.name.Contains("BattleCanvas") != true)
                     {
@@ -38,7 +48,7 @@ public class UIManager : MonoSingleton<UIManager>
 
                         //코인목록을 생성해야되는 스크롤뷰의 Content와 코인목록의 정보를 가진 플레이어 정보를 가지고 옴
                         Transform contentTrans = CurrentUIScreen.transform.Find("CoinScroll").GetChild(0).GetChild(0);
-                        Player player = GameManager.Instance.GetCharcter(CharacterType.TYPE_PLAYER) as Player;
+                        Player player = GameManager.Instance.PlayerCharacter;
                         Dictionary<CoinName, Coin> playerCoin = player.DicCoin;
 
                         //배틀화면에서 쓰이는 플레이어의 코인 목록을 동적으로 스크롤뷰에 생성
@@ -49,11 +59,22 @@ public class UIManager : MonoSingleton<UIManager>
                             coinText.text = pair.Key.ToString();
                             UICoin.transform.SetParent(contentTrans, false);
                         }
+
+                        //각 유닛의 HUD초기화
+                        battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
+                        Slider playerHUD = battleCanvas.GetPlayerHUD();
+                        Slider enemyHUD = battleCanvas.GetEnemyHUD();
+
+                        playerHUD.value = playerHUD.maxValue = player.mentalPoint;
+                        enemyHUD.value = enemyHUD.maxValue = BattleManager.Instance.EnemyCharacter.mentalPoint;
+
+                        GraphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
                     }
 
                     //BattleCanvas를 받아와서 UI애니메이션 실행
-                    BattleCanvas battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
-                    battleCanvas.PlayAnimation();
+                    if(battleCanvas == null)
+                        battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
+                    battleCanvas.PlayAppearAnimation();
                     //현재턴을 TurnText에 입력
                     Text turnText = battleCanvas.GetTurnText();
                     turnText.text = BattleManager.Instance.CurrentTurn.ToString();
@@ -69,7 +90,7 @@ public class UIManager : MonoSingleton<UIManager>
 
                     //전투상태에 맞게 UI애니메이션을 역재생하여 빈 화면으로 만든다
                     BattleCanvas battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
-                    battleCanvas.PlayReverseAnimation();
+                    battleCanvas.PlayDisappearAnimation();
                 }
                 break;
             case UIType.TYPE_UI_TRADE:
@@ -131,6 +152,35 @@ public class UIManager : MonoSingleton<UIManager>
                         cancleBtn.onClick.AddListener(function2);
                 }
                 break;
+        }
+    }
+
+    public void SetGraphUI(GraphType type)
+    {
+        switch (type)
+        {
+            case GraphType.TYPE_IN_BATTLE_GRAPH:
+                GameObject graphObj = Instantiate(graphPrefab_battle);
+                graphObj.transform.SetParent(GraphCanvasTrans, false);
+                ((RectTransform)graphObj.transform).anchoredPosition = Vector2.zero;
+                MarketManager.Instance.RegistLineGraph(CoinName.NEETCOIN, graphObj.transform);
+                tempBool = true;
+                break;
+            case GraphType.TYPE_IN_TRADE_GRAPH:
+                break;
+        }
+    }
+
+    public void Update()
+    {
+        tempTime += Time.deltaTime;
+
+        if (tempBool && tempTime > 1)
+        {
+            MarketManager.Instance.RenderLineGraph(CoinName.NEETCOIN);
+            MarketManager.Instance.ChangeMarketInfo(CoinName.NEETCOIN);
+
+            tempTime = 0;
         }
     }
 }

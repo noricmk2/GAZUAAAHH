@@ -40,13 +40,6 @@ public enum AnimationType // 1/30일 오전 추가
     TYPE_DEAD
 }   
 
-public enum CharacterState
-{
-    TYPE_IDLE,
-    TYPE_BATTLE,
-    TYPE_DEAD,
-}
-
 public enum CoinBattleType
 {
     TYPE_NORMAL_COIN,
@@ -97,4 +90,27 @@ public enum CoinInfo // 02/05일 추가
     Skill,
     Amount,
     MAX
+}
+
+public enum GraphType
+{
+    TYPE_IN_BATTLE_GRAPH,
+    TYPE_IN_TRADE_GRAPH,
+}
+
+public enum SceneType
+{
+    TYPE_SCENE_LOGO,
+    TYPE_SCENE_ROBBY,
+    TYPE_SCENE_BATTLE,
+}
+
+public enum BattleSceneUI
+{
+    UI_TURN_TEXT,
+    UI_ENEMY_HUD,
+    UI_PLAYER_HUD,
+    UI_CHOICE_PANEL,
+    UI_COINSET_PANEL,
+    UI_COIN_SCROLL,
 }
