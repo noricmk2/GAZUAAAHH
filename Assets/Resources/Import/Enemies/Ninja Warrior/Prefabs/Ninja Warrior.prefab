@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 9590292}
-  - component: {fileID: 11497932}
   - component: {fileID: 114322602857274074}
+  - component: {fileID: 114724367173136046}
   m_Layer: 0
   m_Name: Ninja Warrior
   m_TagString: Untagged
@@ -1589,20 +1589,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11497932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f7ef17c21ec457409514db055acb92a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 9590292}
-  target: {fileID: 0}
-  warrior: 0
 --- !u!137 &13728654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1726,3 +1712,14 @@ MonoBehaviour:
   target: {fileID: 0}
   mentalPoint: 100
   characterState: 0
+--- !u!114 &114724367173136046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57b6d7cb8d8f814bb0b23f2260eb8a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

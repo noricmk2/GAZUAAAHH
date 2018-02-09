@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 9590292}
-  - component: {fileID: 11497932}
   - component: {fileID: 114397815454407746}
+  - component: {fileID: 114787758689474178}
   m_Layer: 0
   m_Name: Sorceress Warrior
   m_TagString: Untagged
@@ -1898,20 +1898,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11497932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f7ef17c21ec457409514db055acb92a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 9590292}
-  target: {fileID: 0}
-  warrior: 3
 --- !u!136 &13607772
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2215,7 +2201,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0982682, y: -0.16426805, z: -0.0000004776979}
+  m_ConnectedAnchor: {x: -0.0982682, y: -0.16426803, z: -0.0000005167708}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2274,3 +2260,14 @@ MonoBehaviour:
   target: {fileID: 0}
   mentalPoint: 0
   characterState: 0
+--- !u!114 &114787758689474178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57b6d7cb8d8f814bb0b23f2260eb8a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

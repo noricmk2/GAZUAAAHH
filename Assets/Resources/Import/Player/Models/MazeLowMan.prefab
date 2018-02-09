@@ -80,6 +80,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4662457999326514}
   - component: {fileID: 95463688320404334}
+  - component: {fileID: 114598290302294644}
+  - component: {fileID: 114034146451100186}
   m_Layer: 0
   m_Name: MazeLowMan
   m_TagString: Untagged
@@ -920,7 +922,7 @@ Animator:
   m_GameObject: {fileID: 1237214904941302}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -928,6 +930,29 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114034146451100186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237214904941302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57b6d7cb8d8f814bb0b23f2260eb8a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114598290302294644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237214904941302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ebb6800d4ef31d40aec2b29fcd6e0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!137 &137111265141946654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
