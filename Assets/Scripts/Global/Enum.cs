@@ -32,13 +32,6 @@ public enum GraphTarget
     GRAPH_COIN,
 }
 
-public enum AnimationType // 1/30일 오전 추가 
-{
-    TYPE_IDLE,
-    TYPE_ATTACK,
-    TYPE_DAMAGE,
-    TYPE_DEAD
-}   
 
 public enum CoinBattleType
 {
@@ -114,3 +107,31 @@ public enum BattleSceneUI
     UI_COINSET_PANEL,
     UI_COIN_SCROLL,
 }
+
+public enum AnimationType // 1/30일 오전 추가 
+{
+    TYPE_IDLE,
+    TYPE_ATTACK,
+    TYPE_DAMAGE,
+    TYPE_DEAD,
+    TYPE_DEFFENCE,
+    TYPE_GOB_WAIT,
+    TYPE_GOB_START
+
+}
+
+public enum EffectType // 02/05일 추가
+{
+    TYPE_EFFECT_NORMAL,
+}
+
+public enum SkillType // 02/05일 추가 0207변경
+{
+    TYPE_DEFFENCE,
+    TYPE_ATTACK,
+    TYPE_BUFF,
+    TYPE_DEBUFF,
+    TYPE_COUNTER
+
+}
+

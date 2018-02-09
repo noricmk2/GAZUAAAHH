@@ -12,11 +12,23 @@ public class EffectManager : MonoSingleton<EffectManager>
     }
 
     public void CreateEffect(Vector3 _position, float _playTime, string _path)
-    {   
-        GameObject effect = Instantiate(Resources.Load(_path) as GameObject);
+    {
 
+        GameObject effect = Instantiate(Resources.Load(_path) as GameObject, _position, Quaternion.identity);
         effect.AddComponent<BaseEffect>();
-        effect.transform.position = _position;
+
+        BaseEffect baseEffect = effect.GetComponent<BaseEffect>();
+        baseEffect.playTime = _playTime;
+        
+        listEffect.Add(baseEffect);
+    }
+
+    public void CreateEffect(Vector3 _position, float _playTime, string _path,Quaternion quaternion)
+    {
+
+        GameObject effect = Instantiate(Resources.Load(_path) as GameObject, _position, quaternion);
+        effect.AddComponent<BaseEffect>();
+
         BaseEffect baseEffect = effect.GetComponent<BaseEffect>();
         baseEffect.playTime = _playTime;
         
@@ -25,19 +37,19 @@ public class EffectManager : MonoSingleton<EffectManager>
 
     public void Update()
     {
-        List<int> tmplist = new List<int>();
+        List<int> removeList = new List<int>();
         foreach (BaseEffect effect in listEffect)
         {
             effect.CustomUpdate();
             if(effect.isEnd)
             {
-                tmplist.Add(listEffect.IndexOf(effect));
+                removeList.Add(listEffect.IndexOf(effect));
                 Destroy(effect.gameObject);
             }
         }
         for (int i = listEffect.Count; i >= 0; i--)
         {
-            foreach (int j in tmplist)
+            foreach (int j in removeList)
             {
                 if (i == j)
                 {

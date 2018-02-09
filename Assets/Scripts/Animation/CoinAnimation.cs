@@ -92,9 +92,21 @@ public class CoinAnimation : MonoBehaviour
 
         Vector3 pos = orgPos + (dir * len);
         Vector3 effectPos = pos;
-        effectPos.z += 1;
-        EffectManager.Instance.CreateEffect(effectPos, 1.5f, "Prefab/Effect16");
-        coinObjectList.Add(Instantiate(CoinObject, pos, Quaternion.identity));
+        Vector3 dirTarget = (attackTarget.position - spawnTarget.position).normalized;
+        if (dir.z > 0)
+        {
+            effectPos.z += 0.8f;
+        }
+        else if (dir.z < 0 )
+        {
+            effectPos.z -= 0.8f;
+        }
+        Quaternion effectQuarernion = Quaternion.identity;
+        effectQuarernion.eulerAngles = new Vector3(90, 0,0);
+  
+        EffectManager.Instance.CreateEffect(effectPos, 0.8f, "Prefab/Effect/GOBEffect", effectQuarernion);
+
+        coinObjectList.Add(Instantiate(CoinObject, effectPos, Quaternion.identity));
     }
 
     void CoinAttackAnimation() //공격시의 애니메이션 메서드 
@@ -116,14 +128,17 @@ public class CoinAnimation : MonoBehaviour
                 {
                     Vector3 dir = attackTarget.position - coinObjectList[i].transform.position;
 
-                    if (dir.sqrMagnitude < 1.0f)
+                    if (dir.sqrMagnitude < Random.Range(0.5f,1))
                     {
+                        Vector3 position = coinObjectList[i].transform.position;
                         Destroy(coinObjectList[i]);
                         coinObjectList.RemoveAt(i);
+                        EffectManager.Instance.CreateEffect(position, 0.8f, "Prefab/Effect/GOBHIT");
+
                         if (coinObjectList.Count == 0)
                             StartAnimation = false;
                         break;
-                    }
+                    }                   
                     else
                         dir = dir.normalized;
 
@@ -146,7 +161,7 @@ public class CoinAnimation : MonoBehaviour
             Vector3 dir = (attackTarget.position - spawnTarget.position).normalized;
             if (dir.z > 0 && coinTrans.position.z < spawnTarget.transform.position.z + 1)
             {
-                coinTrans.Translate(coinTrans.forward * Time.deltaTime);
+                coinTrans.Translate(coinTrans.forward * Time.deltaTime*0.4f);
             }
             else if (dir.z < 0 && coinTrans.position.z > spawnTarget.transform.position.z - 1)
             {

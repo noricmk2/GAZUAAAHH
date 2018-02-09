@@ -79,9 +79,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4662457999326514}
-  - component: {fileID: 95463688320404334}
-  - component: {fileID: 114598290302294644}
-  - component: {fileID: 114034146451100186}
+  - component: {fileID: 114404994599108384}
+  - component: {fileID: 114858387686364232}
+  - component: {fileID: 95345409669026608}
   m_Layer: 0
   m_Name: MazeLowMan
   m_TagString: Untagged
@@ -810,7 +810,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1122075700711174}
-  m_LocalRotation: {x: 0.39916644, y: -0.5562319, z: 0.5836661, w: 0.43658453}
+  m_LocalRotation: {x: 0.39916646, y: -0.556232, z: 0.58366615, w: 0.43658456}
   m_LocalPosition: {x: -0.00000008520796, y: -9.627373e-10, z: 0.09924526}
   m_LocalScale: {x: 1.0000004, y: 1.0000004, z: 1.0000004}
   m_Children: []
@@ -913,7 +913,7 @@ Transform:
   m_Father: {fileID: 4649505485367114}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95463688320404334
+--- !u!95 &95345409669026608
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -922,15 +922,15 @@ Animator:
   m_GameObject: {fileID: 1237214904941302}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7e15121f5f042ed46aba81406403f2d2, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
-  m_CullingMode: 1
+  m_Controller: {fileID: 9100000, guid: 7d75c7b5d347403418f566749034436e, type: 2}
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114034146451100186
+--- !u!114 &114404994599108384
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -941,7 +941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57b6d7cb8d8f814bb0b23f2260eb8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114598290302294644
+--- !u!114 &114858387686364232
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -952,7 +952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebb6800d4ef31d40aec2b29fcd6e0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 114617945986059482, guid: ce898fdcb7684734b8b25310bcb1600e, type: 2}
+  mentalPoint: 2345000
 --- !u!137 &137111265141946654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

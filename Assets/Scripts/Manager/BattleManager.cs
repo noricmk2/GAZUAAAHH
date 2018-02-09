@@ -45,7 +45,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
         }
 
-        _enemy = Instantiate(enemyPrefab).GetComponent<Enemy>();
+        _enemy = Instantiate(enemyPrefab,new Vector3(0,0,10),new Quaternion(0,180,0,0)).GetComponent<Enemy>();
         _enemy.Init();
         _enemy.target = player;
         player.target = _enemy;
