@@ -6,15 +6,16 @@ using UnityEngine.Events;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    bool tempBool = false;
-    float tempTime = 0;
-
     GameObject battleCanvasPrefab; //전투씬UI의 프리팹
     GameObject UICoinPrefab; //전투씬에서 동적으로 생성할 코인목록의 아이템 
     GameObject popupPrefab; //팝업창의 프리팹
+    GameObject graphCameraPrefab; //그래프용 카메라의 프리팹
+    Transform graphCanvasTrans; //그래프용 캔버스의 트랜스폼
+
+    GameObject currentBattlegraph;
+
     GameObject graphPrefab_battle; //그래프의 프리팹
-    GameObject graphCameraPrefab;
-    Transform GraphCanvasTrans;
+
 
     public GameObject CurrentUIScreen //현재의 UI씬
     {
@@ -40,25 +41,13 @@ public class UIManager : MonoSingleton<UIManager>
             case UIType.TYPE_UI_BATTLE_WAIT: //배틀씬중 입력대기상태 UI
                 {
                     BattleCanvas battleCanvas = null;
+                    Player player = GameManager.Instance.PlayerCharacter;
+
                     // 현재의 UI화면이 없거나 배틀UI가 아닐경우
                     if (CurrentUIScreen == null || CurrentUIScreen.name.Contains("BattleCanvas") != true)
                     {
                         //현재의 UI화면을 배틀UI로 세팅
                         CurrentUIScreen = Instantiate(battleCanvasPrefab);
-
-                        //코인목록을 생성해야되는 스크롤뷰의 Content와 코인목록의 정보를 가진 플레이어 정보를 가지고 옴
-                        Transform contentTrans = CurrentUIScreen.transform.Find("CoinScroll").GetChild(0).GetChild(0);
-                        Player player = GameManager.Instance.PlayerCharacter;
-                        Dictionary<CoinName, Coin> playerCoin = player.DicCoin;
-
-                        //배틀화면에서 쓰이는 플레이어의 코인 목록을 동적으로 스크롤뷰에 생성
-                        foreach (KeyValuePair<CoinName, Coin> pair in playerCoin)
-                        {
-                            GameObject UICoin = Instantiate(UICoinPrefab);
-                            Text coinText = UICoin.transform.GetComponentInChildren<Text>();
-                            coinText.text = pair.Key.ToString();
-                            UICoin.transform.SetParent(contentTrans, false);
-                        }
 
                         //각 유닛의 HUD초기화
                         battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
@@ -68,13 +57,34 @@ public class UIManager : MonoSingleton<UIManager>
                         playerHUD.value = playerHUD.maxValue = player.mentalPoint;
                         enemyHUD.value = enemyHUD.maxValue = BattleManager.Instance.EnemyCharacter.mentalPoint;
 
-                        GraphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
+                        graphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
                     }
 
-                    //BattleCanvas를 받아와서 UI애니메이션 실행
                     if(battleCanvas == null)
                         battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
+
+                    //코인목록을 생성해야되는 스크롤뷰의 Content와 코인목록의 정보를 가진 플레이어 정보를 가지고 옴
+                    Transform contentTrans = CurrentUIScreen.transform.Find("CoinScroll").GetChild(0).GetChild(0);
+                    Dictionary<CoinName, Coin> playerCoin = player.DicCoin;
+
+                    //스크롤뷰에 전에 쓰던 코인목록이 있다면 삭제
+                    for (int i = 0; i < contentTrans.childCount; ++i)
+                    {
+                        Destroy(contentTrans.GetChild(i).gameObject);
+                    }
+
+                    //배틀화면에서 쓰이는 플레이어의 코인 목록을 동적으로 스크롤뷰에 생성
+                    foreach (KeyValuePair<CoinName, Coin> pair in playerCoin)
+                    {
+                        GameObject UICoin = Instantiate(UICoinPrefab);
+                        Text coinText = UICoin.transform.GetComponentInChildren<Text>();
+                        coinText.text = pair.Key.ToString();
+                        UICoin.transform.SetParent(contentTrans, false);
+                    }
+
+                    //BattleCanvas의 UI애니메이션 실행
                     battleCanvas.PlayAppearAnimation();
+
                     //현재턴을 TurnText에 입력
                     Text turnText = battleCanvas.GetTurnText();
                     turnText.text = BattleManager.Instance.CurrentTurn.ToString();
@@ -155,32 +165,63 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-    public void SetGraphUI(GraphType type)
+    public void SetGraphUI(GraphType type, CoinName coin, bool view = true, bool change = false) //요청받은 그래프를 그리는 메서드
     {
         switch (type)
         {
-            case GraphType.TYPE_IN_BATTLE_GRAPH:
-                GameObject graphObj = Instantiate(graphPrefab_battle);
-                graphObj.transform.SetParent(GraphCanvasTrans, false);
-                ((RectTransform)graphObj.transform).anchoredPosition = Vector2.zero;
-                MarketManager.Instance.RegistLineGraph(CoinName.NEETCOIN, graphObj.transform);
-                tempBool = true;
+            case GraphType.TYPE_IN_BATTLE_GRAPH: //배틀씬중에 그래프를 요청 받았을 경우
+                {
+                    //그래프를 보여달라는 요청일 경우
+                    if (view)
+                    {
+                        //단순히 그래프 시세값 변경 요청일 경우 값만 변경후 리턴
+                        if (change == true && currentBattlegraph != null)
+                        {
+                            Text price = currentBattlegraph.transform.GetChild(2).GetComponent<Text>();
+                            price.text = CoinManager.Instance.GetCoinDictionary()[coin].MarketInfo.CurrentPrice.ToString();
+                            return;
+                        }
+
+                        //배틀씬의 UI정보를 받아옴
+                        BattleCanvas battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
+                        GameObject coinScroll = battleCanvas.GetCoinScrollObject();
+                        Transform scrollContent = coinScroll.transform.GetChild(0).GetChild(0);
+
+                        //스크롤뷰 안의 코인목록을 순회하며 요청한 그래프의 코인일 경우 코인목록UI를 복사후 애니메이션 실행, 그래프 렌더
+                        for (int i = 0; i < scrollContent.childCount; ++i)
+                        {
+                            GameObject coinUI = scrollContent.GetChild(i).gameObject;
+                            string UIText = coinUI.GetComponentInChildren<Text>().text;
+
+                            if (UIText == coin.ToString())
+                            {
+                                currentBattlegraph = Instantiate(coinUI);
+                                coinUI.SetActive(false);
+                                currentBattlegraph.transform.SetParent(graphCanvasTrans, false);
+                                ((RectTransform)currentBattlegraph.transform).anchorMax = new Vector2(0, 1);
+                                ((RectTransform)currentBattlegraph.transform).anchorMin = new Vector2(0, 1);
+                                ((RectTransform)currentBattlegraph.transform).anchoredPosition = Vector2.zero;
+
+                                Text price = currentBattlegraph.transform.GetChild(2).GetComponent<Text>();
+                                price.text = CoinManager.Instance.GetCoinDictionary()[coin].MarketInfo.CurrentPrice.ToString();
+
+                                currentBattlegraph.GetComponent<UICoin>().PlayAnimation();
+                                
+                                Image graphImage = currentBattlegraph.transform.GetChild(1).GetComponent<Image>();
+                                graphImage.color = Color.white;
+                                MarketManager.Instance.RegistLineGraph(coin, graphImage.transform);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //삭제 요청일 경우
+                        Destroy(currentBattlegraph);
+                    }
+                }
                 break;
             case GraphType.TYPE_IN_TRADE_GRAPH:
                 break;
-        }
-    }
-
-    public void Update()
-    {
-        tempTime += Time.deltaTime;
-
-        if (tempBool && tempTime > 1)
-        {
-            MarketManager.Instance.RenderLineGraph(CoinName.NEETCOIN);
-            MarketManager.Instance.ChangeMarketInfo(CoinName.NEETCOIN);
-
-            tempTime = 0;
         }
     }
 }

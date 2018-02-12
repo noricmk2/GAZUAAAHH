@@ -13,7 +13,7 @@ public class Grapher : MonoBehaviour
     float interval = 2; //그래프 각 점의 간격
     int pointCount = 40; //그래프를 구성할 정점의 총합
 
-    float _lineWidth = 1200.0f; 
+    float _lineWidth = 300.0f; 
     public float LineWidth //선의 굵기
     {
         get { return _lineWidth; }

@@ -87,13 +87,6 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public IEnumerator BattleStart() //모든 입력이 끝나고 전투에 돌입했을시의 실행 메서드
     {
-        //전투용UI로 변경
-        UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_ATTACK);
-
-        yield return new WaitForSeconds(1);
-
-        UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH);
-
         //에너미의 AI실행
         _enemy.SelectCoin();
 
@@ -101,15 +94,28 @@ public class BattleManager : MonoSingleton<BattleManager>
         List<Coin> listPlayerCoin = new List<Coin>();
         List<Coin> listEnemyCoin = new List<Coin>();
 
+        //코인목록별로 UIManager에게 그래프를 그려달라고 요청후 한번씩 시세변경을 시도한다
         foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
         {
             listPlayerCoin.Add(pair.Value);
+            UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true);
+            yield return new WaitForSeconds(1);
+            MarketManager.Instance.ChangeMarketInfo(pair.Key);
+            MarketManager.Instance.RenderLineGraph(pair.Key);
+            UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true, true);
+            yield return new WaitForSeconds(1);
+            UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
         }
 
         foreach (KeyValuePair<CoinName, Coin> pair in _enemy.DicCoin)
         {
             listEnemyCoin.Add(pair.Value);
         }
+
+        //전투용UI로 변경
+        UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_ATTACK);
+
+        yield return new WaitForSeconds(1);
 
         CalCulDamage(listPlayerCoin, listEnemyCoin);
     }
@@ -126,9 +132,17 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             Coin coin = playerCoinList[i];
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
+            {
                 playerAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+            }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
+            {
                 playerDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+            }
+
+            //배틀에서 사용한 수량만큼 소유코인에서 삭감
+            coin.CoinAmount -= coin.CoinAmountInBattle;
+            coin.CoinAmountInBattle = 0;
         }
 
         for (int i = 0; i < enemyCoinList.Count; ++i)
@@ -138,6 +152,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                 enemyAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
                 enemyDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+            coin.CoinAmount -= coin.CoinAmountInBattle;
+            coin.CoinAmountInBattle = 0;
         }
 
         player.SetBattlePoint(playerAttackPoint, playerDeffencePoint);

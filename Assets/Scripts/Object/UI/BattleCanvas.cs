@@ -5,22 +5,15 @@ using UnityEngine.UI;
 
 public class BattleCanvas : MonoBehaviour
 {
-    Text turnText;
-    Slider enemyHUD;
-    Slider playerHUD;
-    GameObject choicePanel;
-    GameObject coinScrollObj;
-    CoinSetPanel coinSetPanel;
-    Animation[] UIAnimations = new Animation[5];
+    Text turnText; //턴텍스트
+    Slider enemyHUD; //에너미 hp바
+    Slider playerHUD; //플레이어 hp바
+    GameObject choicePanel; //공수 선택 패널
+    GameObject coinScrollObj; //코인 목록 스크롤뷰
+    CoinSetPanel coinSetPanel; //공수 선택시 수량 설정 패널
+    Animation[] UIAnimations = new Animation[5]; //각 UI의 애니메이션
 
-    float _uiTime;
-    public float UIAnimTime
-    {
-        get { return _uiTime; }
-    }
-    bool disappearAnim = false;
-
-    private void Awake()
+    private void Awake() //배틀씬의 모든 UI와 애니메이션을 받아옴
     {
         turnText = this.transform.GetChild(0).GetComponent<Text>();
         enemyHUD = this.transform.GetChild(1).GetComponent<Slider>();
@@ -36,16 +29,9 @@ public class BattleCanvas : MonoBehaviour
         UIAnimations[4] = coinScrollObj.transform.GetComponent<Animation>();
     }
 
-    private void Update()
+    public void PlayDisappearAnimation() //UI가 사라질때의 애니메이션
     {
-        if (disappearAnim && UIAnimTime < 1.0f)
-        {
-            _uiTime += Time.deltaTime;
-        }
-    }
-
-    public void PlayDisappearAnimation()
-    {
+        //각 UI에 설정된 애니메이션 클립의 스피드를 -1로 하고 시작을 끝으로 하여 역재생
         for (int i = 0; i < UIAnimations.Length; ++i)
         {
             Animation anim = UIAnimations[i];
@@ -59,7 +45,7 @@ public class BattleCanvas : MonoBehaviour
         }
     }
 
-    public void PlayAppearAnimation()
+    public void PlayAppearAnimation() //UI가 나타날때의 애니메이션
     {
         for (int i = 0; i < UIAnimations.Length; ++i)
         {
@@ -76,7 +62,7 @@ public class BattleCanvas : MonoBehaviour
 
     }
 
-    public void PlayerHudAnimation(float value, bool isPlayerHUD)
+    public void PlayerHudAnimation(float value, bool isPlayerHUD) //hp바의 애니메이션
     {
         Slider animatedSlider;
 
@@ -90,6 +76,7 @@ public class BattleCanvas : MonoBehaviour
         ShakeUI(BattleSceneUI.UI_PLAYER_HUD, 0.1f, 0.002f);
     }
 
+    //이하 UI의 Getter 메서드
     public Text GetTurnText()
     {
         if (turnText == null)

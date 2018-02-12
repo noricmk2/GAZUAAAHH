@@ -92,7 +92,7 @@ public class MarketManager : MonoSingleton<MarketManager>
 
         //코인의 가격 대입
         cmInfo.PrevPrice = cmInfo.CurrentPrice;
-        float setPrice = CalculRandomNoise(CoinName.NEETCOIN);
+        float setPrice = CalculRandomNoise(name);
         if (setPrice < 10)
         {
             cmInfo.CurrentMacroTrend = MacroCoinTrend.TREND_UP_MACRO;

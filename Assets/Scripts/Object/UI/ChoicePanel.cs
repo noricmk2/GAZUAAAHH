@@ -24,6 +24,8 @@ public class ChoicePanel : MonoBehaviour, IDropHandler
         Text titleText = coinSetPanel.transform.Find("PanelTitle").GetComponent<Text>();
         GameObject droppedObj = eventData.pointerDrag;
         Text coinTextInfo = droppedObj.GetComponentInChildren<Text>();
+        Image coinSelectImage = droppedObj.transform.GetChild(1).GetComponent<Image>();
+        coinSetPanel.GetComponent<CoinSetPanel>().coinItemSelectImage = coinSelectImage;
 
         //자신의 패널타입에 따라 띄우는 패널의 텍스트와 어느쪽에서 불렀는지 정보를 넣어준다
         switch (panelType)
