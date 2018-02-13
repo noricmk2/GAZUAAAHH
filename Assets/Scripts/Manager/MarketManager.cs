@@ -9,6 +9,12 @@ public class MarketManager : MonoSingleton<MarketManager>
     public void MarketInit() //초기화
     {
         DicCoin = CoinManager.Instance.GetCoinDictionary();
+
+        foreach (KeyValuePair<CoinName, Coin> pair in CoinManager.Instance.GetCoinDictionary())
+        {
+            for (int i = 0; i < 10; i++)
+                MarketManager.Instance.ChangeMarketInfo(pair.Key);
+        }
     }
 
     public override void CustomUpdate() //마켓매니저의 커스텀업데이트
@@ -100,7 +106,7 @@ public class MarketManager : MonoSingleton<MarketManager>
         }
         cmInfo.CurrentPrice = setPrice;
         cmInfo.AddPriceList(setPrice);
-        Debug.Log(cmInfo.CurrentPrice);
+        //Debug.Log(cmInfo.CurrentPrice);
 
         //이전 시세와의 차를 계산
         float differ = cmInfo.CurrentPrice - cmInfo.PrevPrice;

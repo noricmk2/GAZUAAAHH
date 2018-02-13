@@ -128,17 +128,20 @@ public class BattleManager : MonoSingleton<BattleManager>
         int enemyDeffencePoint = 0;
 
         //코인목록을 순회하며 타입에 따라 전투력을 누적시킨후 양측에게 알려줌
+        player.CoinAnimationPlay = true; // 코인 애니메이션 실행
+        _enemy.CoinAnimationPlay = true; // 코인 애니메이션 실행
+
         for (int i = 0; i < playerCoinList.Count; ++i)
         {
             Coin coin = playerCoinList[i];
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
             {
                 playerAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+                if (coin.MarketInfo.DifferPrice < 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
+                    player.CoinAnimationPlay = false;
             }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
-            {
                 playerDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
-            }
 
             //배틀에서 사용한 수량만큼 소유코인에서 삭감
             coin.CoinAmount -= coin.CoinAmountInBattle;
@@ -149,9 +152,14 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             Coin coin = enemyCoinList[i];
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
+            {
                 enemyAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+                if (coin.MarketInfo.DifferPrice < 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
+                    _enemy.CoinAnimationPlay = false;
+            }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
                 enemyDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+
             coin.CoinAmount -= coin.CoinAmountInBattle;
             coin.CoinAmountInBattle = 0;
         }

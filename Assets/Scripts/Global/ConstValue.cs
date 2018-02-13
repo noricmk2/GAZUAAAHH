@@ -17,6 +17,8 @@ public static class ConstValue
 
     public const string coinpath = "JsonTemplate/COIN_TEMPLATE";
 
+    public const string BattleEnterUIPath = "Prefab/UI/LobbyUI/BattleEnter";
+
     public const int FirstRound = 7;
     public const int SecondRound = 19;
     public const int ThirdRound = 43;

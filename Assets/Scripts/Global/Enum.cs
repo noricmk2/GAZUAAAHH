@@ -11,6 +11,13 @@ public enum CoinName
     ATHURIUM,
     SUFFLE,
     AOS,
+    NEETCOIN_CASH,
+    ATHURIUM_CLASSIC,
+    NIGHTCOIN,
+    NEUTRON,
+    RUSH,
+    NEETCOIN_PLATINUM,
+    HARAMCOIN
 }
 
 public enum MicroCoinTrend

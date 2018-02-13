@@ -8,18 +8,22 @@ public class Character : BaseObject
     public Dictionary<CoinName, Coin> DicCoin { get; set; }
     public float mentalPoint; // 멘탈치 HP개념
     public int cost { get; set; } //코스트
+    public int property { get; set; }
 
     float attackPoint; // 배틀 매니저에서 받아온 공격포인트
     float deffencePoint; // 배틀 매니저에서 받아온 방어포인트
     bool isAttack; // 배틀에서 공격을 실행했는지 판단하는 편수
-    bool isBattle;
+    public bool CoinAnimationPlay //코인 애니메이션을 실행할 것인지 판단하는 변수
+    {
+        get; set;
+    }
 
     public CharacterType characterType { get; set; }
     public List<Coin> listSelectCoins { get; set; }//공격할 코인을 저장하는 변수    
+    CoinAnimation GOB;
 
     public override void Init()
-    {
-        isBattle = false;
+    {       
         animationPlayer = GetComponent<AnimationPlayer>();
         animationPlayer.Init();
         animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
@@ -37,7 +41,7 @@ public class Character : BaseObject
         attackPoint = AttackPoint;
         deffencePoint = DeffencePoint;
         isAttack = false;
-        if(characterType == CharacterType.TYPE_PLAYER)
+        if (characterType == CharacterType.TYPE_PLAYER)
         {
             Battle();
         }
@@ -47,7 +51,13 @@ public class Character : BaseObject
     {
         if (isAttack == false)
         {
-            animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행 
+            if (characterType == CharacterType.TYPE_PLAYER)
+            {
+                animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_WAIT);
+                GOBWait();
+            }
+            else
+                animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행 
         }
         if (isAttack == true && target.isAttack == true)
         {
@@ -63,7 +73,7 @@ public class Character : BaseObject
             target.Deffence(attackPoint); // 상대방 Dffence 실행
             isAttack = true;
         }
-        
+
     }
 
     public virtual void Deffence(float damage)
@@ -117,10 +127,48 @@ public class Character : BaseObject
         if (isAttack == true && target.isAttack == true)
         {
             if (characterType == CharacterType.TYPE_PLAYER)
-            BattleManager.Instance.TurnEnd();
+                BattleManager.Instance.TurnEnd();
 
             animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
             target.animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
         }
     }
+
+    public void GOBStart() //캐릭터 제스쳐 실행
+    {
+        animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_START);
+    }
+
+    public void GOBAttack() //GOB 공격 실행
+    {
+        GOB.StartAnimation = true;
+        if (isAttack == false)
+        {
+            target.Deffence(attackPoint); // 상대방 Dffence 실행
+            isAttack = true;
+        }
+    }
+
+    public void GOBWait() //GOB 준비(코인생성)
+    {
+        GOB = GetComponentInChildren<CoinAnimation>();
+
+        Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
+        GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
+        GOB.CoinAnimInit(testCoin1, testCoin, GOB.transform, target.transform, CoinAnimType.TYPE_GATE_BABYLON_ANIM);
+        GOB.StartCoroutine("SpawnCoin");
+    }
+
+    public void GOBEnd() //GOB 종료 후 IDLE상태로 변환
+    {
+        animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
+        if (isAttack == false)
+        {
+            target.Deffence(attackPoint); // 상대방 Dffence 실행
+            isAttack = true;
+        }
+    }
+
+
+
 }

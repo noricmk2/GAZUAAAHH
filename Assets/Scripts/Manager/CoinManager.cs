@@ -29,6 +29,7 @@ public class CoinManager : MonoSingleton<CoinManager>
             Coin coin = CreateCoin(pair.Key, pair.Value);
             DicCoin.Add(coin.Name, coin);
         }
+      
     }
 
     public Coin CreateCoin(string name, CoinTemplateData coinData) //이름을 받아오면 외부에서 읽어온 데이터를 토대로 코인 생성
@@ -54,6 +55,35 @@ public class CoinManager : MonoSingleton<CoinManager>
                 coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.AOS, new BaseSkill());
                 coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
                 break;
+            case "NEETCOIN_CASH":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.NEETCOIN_CASH, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+            case "ATHURIUM_CLASSIC":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.ATHURIUM_CLASSIC, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+            case "NIGHTCOIN":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.NIGHTCOIN, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+            case "NEUTRON":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.NEUTRON, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+            case "RUSH":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.RUSH, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+            case "NEETCOIN_PLATINUM":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.NEETCOIN_PLATINUM, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+            case "HARAMCOIN":
+                coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], CoinName.HARAMCOIN, new BaseSkill());
+                coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
+                break;
+
         }
         return coin;
     }
