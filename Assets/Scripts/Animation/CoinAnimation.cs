@@ -37,8 +37,9 @@ public class CoinAnimation : MonoBehaviour
         switch (animType)
         {
             case CoinAnimType.TYPE_BASE_ATTACK_ANIM:
-                {
-
+                {                    
+                    coinObjectList.Add(Instantiate(CoinObject,setPos,Quaternion.identity));
+                    yield break;
                 }
                 break;
             case CoinAnimType.TYPE_BASE_DEFFENCE_ANIM:
@@ -120,6 +121,26 @@ public class CoinAnimation : MonoBehaviour
         switch (animType)
         {
             case CoinAnimType.TYPE_BASE_ATTACK_ANIM:
+                for (int i = 0; i < coinObjectList.Count; ++i)
+                {
+                    Vector3 dir = (attackTarget.position + new Vector3(0,2)) - coinObjectList[i].transform.position;                   
+
+                    if (dir.sqrMagnitude < Random.Range(0.5f, 1))
+                    {
+                        Vector3 position = coinObjectList[i].transform.position;
+                        Destroy(coinObjectList[i]);
+                        coinObjectList.RemoveAt(i);
+                        EffectManager.Instance.CreateEffect(position, 0.8f, "Prefab/Effect/GOBHIT");
+
+                        if (coinObjectList.Count == 0)
+                            StartAnimation = false;
+                        break;
+                    }
+                    else
+                        dir = dir.normalized;
+
+                    coinObjectList[i].transform.position += dir * speed/2 * Time.deltaTime;
+                }
                 break;
             case CoinAnimType.TYPE_BASE_DEFFENCE_ANIM:
                 break;
@@ -172,7 +193,10 @@ public class CoinAnimation : MonoBehaviour
 
     private void Update()
     {
-        GOBCoinMoveFoward();
+        if (animType == CoinAnimType.TYPE_GATE_BABYLON_ANIM)
+        {
+            GOBCoinMoveFoward();
+        }
 
         if (StartAnimation == true)
             CoinAttackAnimation();

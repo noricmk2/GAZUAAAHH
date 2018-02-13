@@ -20,7 +20,7 @@ public class Character : BaseObject
 
     public CharacterType characterType { get; set; }
     public List<Coin> listSelectCoins { get; set; }//공격할 코인을 저장하는 변수    
-    CoinAnimation GOB;
+    CoinAnimation CoinAnimation;
 
     public override void Init()
     {       
@@ -51,13 +51,15 @@ public class Character : BaseObject
     {
         if (isAttack == false)
         {
-            if (characterType == CharacterType.TYPE_PLAYER)
+           //if (characterType == CharacterType.TYPE_PLAYER)
+           //{
+           //    animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_WAIT);
+           //    CoinAnimationWait();
+           //}
+           //else
             {
-                animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_WAIT);
-                GOBWait();
+                animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행                
             }
-            else
-                animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행 
         }
         if (isAttack == true && target.isAttack == true)
         {
@@ -134,14 +136,14 @@ public class Character : BaseObject
         }
     }
 
-    public void GOBStart() //캐릭터 제스쳐 실행
+    public void CoinAnimationStart() //캐릭터 제스쳐 실행
     {
         animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_START);
     }
 
-    public void GOBAttack() //GOB 공격 실행
+    public void CoinAnimationAttack() //CoinAnimation 공격 실행
     {
-        GOB.StartAnimation = true;
+        CoinAnimation.StartAnimation = true;
         if (isAttack == false)
         {
             target.Deffence(attackPoint); // 상대방 Dffence 실행
@@ -149,17 +151,17 @@ public class Character : BaseObject
         }
     }
 
-    public void GOBWait() //GOB 준비(코인생성)
+    public void CoinAnimationWait() //CoinAnimation 준비(코인생성)
     {
-        GOB = GetComponentInChildren<CoinAnimation>();
+        CoinAnimation = GetComponentInChildren<CoinAnimation>();
 
         Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
         GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
-        GOB.CoinAnimInit(testCoin1, testCoin, GOB.transform, target.transform, CoinAnimType.TYPE_GATE_BABYLON_ANIM);
-        GOB.StartCoroutine("SpawnCoin");
+        CoinAnimation.CoinAnimInit(testCoin1, testCoin, CoinAnimation.transform, target.transform, CoinAnimType.TYPE_GATE_BABYLON_ANIM);
+        CoinAnimation.StartCoroutine("SpawnCoin");
     }
 
-    public void GOBEnd() //GOB 종료 후 IDLE상태로 변환
+    public void CoinAnimationEnd() //CoinAnimation 종료 후 IDLE상태로 변환
     {
         animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
         if (isAttack == false)
@@ -169,6 +171,17 @@ public class Character : BaseObject
         }
     }
 
+    void CoinThrow() // 애니메이션 이벤트로 호출
+    {
+        CoinAnimation = GetComponentInChildren<CoinAnimation>();
+
+        Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
+        GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
+     
+        CoinAnimation.CoinAnimInit(testCoin1, testCoin, CoinAnimation.transform, target.transform, CoinAnimType.TYPE_BASE_ATTACK_ANIM);
+        CoinAnimation.StartCoroutine("SpawnCoin");
+        CoinAnimation.StartAnimation = true;
+    }
 
 
 }

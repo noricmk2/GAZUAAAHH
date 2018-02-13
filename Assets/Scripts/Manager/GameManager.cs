@@ -46,8 +46,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
-        SceneChange(SceneType.TYPE_SCENE_LOGO);
-        SceneChange(SceneType.TYPE_SCENE_BATTLE);
+        //SceneChange(SceneType.TYPE_SCENE_LOGO);
+        SceneChange(SceneType.TYPE_SCENE_ROBBY);
+        //SceneChange(SceneType.TYPE_SCENE_BATTLE);
     }
 
     private void Update() //모든 커스텀업데이트를 이곳에 돌리는 것으로 컨트롤함
@@ -63,6 +64,7 @@ public class GameManager : MonoSingleton<GameManager>
             case SceneType.TYPE_SCENE_LOGO:
                 break;
             case SceneType.TYPE_SCENE_ROBBY:
+                UIManager.Instance.SetSceneUI(UIType.TYPE_UI_LOBBY); //02/13추가
                 break;
             case SceneType.TYPE_SCENE_BATTLE:
                 BattleManager.Instance.BattleInit(CurrentStage);

@@ -107,8 +107,8 @@ public class UIManager : MonoSingleton<UIManager>
                     turnText.text = BattleManager.Instance.CurrentTurn.ToString();
 
                     //캔버스의 카메라를 메인으로 설정
-                    Canvas CurrentCanvas = CurrentUIScreen.transform.GetComponent<Canvas>();
-                    CurrentCanvas.worldCamera = Camera.main;
+                    //Canvas CurrentCanvas = CurrentUIScreen.transform.GetComponent<Canvas>();
+                    //CurrentCanvas.worldCamera = Camera.main;
                 }
                 break;
             case UIType.TYPE_UI_BATTLE_ATTACK: //배틀씬중 전투상태
