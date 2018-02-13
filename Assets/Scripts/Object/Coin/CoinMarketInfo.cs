@@ -86,8 +86,8 @@ public class CoinMarketInfo
                 MaxFlucRange = _currentPrice + 100000;
                 break;
             case 7:
-                MinFlucRange = _currentPrice - 1000000;
-                MaxFlucRange = _currentPrice + 1000000;
+                MinFlucRange = _currentPrice - 500000;
+                MaxFlucRange = _currentPrice + 500000;
                 break;
         }
 

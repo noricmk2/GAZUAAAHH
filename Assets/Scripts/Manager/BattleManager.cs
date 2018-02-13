@@ -172,6 +172,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         _currentTurn++;
         TurnChange();
+        UIManager.Instance.SetAntiInteractivePanel(false);
         UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_WAIT);
     }
 }

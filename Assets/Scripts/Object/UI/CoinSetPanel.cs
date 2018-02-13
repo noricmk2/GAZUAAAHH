@@ -101,8 +101,10 @@ public class CoinSetPanel : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void FinalConfirm() //최종 결정, 턴종료시의 실행 메서드
+    public void FinalConfirm(Button confirmBtn) //최종 결정, 턴종료시의 실행 메서드
     {
+        UIManager.Instance.SetAntiInteractivePanel(true);
+        confirmBtn.interactable = false;
         //프리팹으로 불러온 현재 오브젝트에서는 코루틴을 사용할수 없기때문에, 코루틴용 임시객체를 만든후 배틀매니저의 BattleStart를 호출
         GameObject obj = new GameObject("TempCoroutineObject");
         CoinSetPanel comp = obj.AddComponent<CoinSetPanel>();

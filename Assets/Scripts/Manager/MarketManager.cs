@@ -166,13 +166,16 @@ public class MarketManager : MonoSingleton<MarketManager>
             return;
         }
 
-        target.gameObject.AddComponent<Grapher>();
-        Grapher grapher = target.GetComponent<Grapher>();
+        Grapher grapher = target.gameObject.GetComponent<Grapher>();
+        if (grapher == null)
+        {
+            grapher = target.gameObject.AddComponent<Grapher>();
+        }
 
         grapher.SetGraphTarget(GraphTarget.GRAPH_COIN, DicCoin[name], target);
     }
 
-    public void RenderLineGraph(CoinName name) //그래퍼에게 그래프 값을 갱신하며 렌더를 요청하는 메서드
+    public Grapher RenderLineGraph(CoinName name, float interval = 2, float lineWidth = 300.0f) //그래퍼에게 그래프 값을 갱신하며 렌더를 요청하는 메서드
     {
         Coin coin;
 
@@ -183,12 +186,16 @@ public class MarketManager : MonoSingleton<MarketManager>
         else
         {
             Debug.LogError(name.ToString() + " is not exist");
-            return;
+            return null;
         }
 
         Grapher grapher = coin.GraphUI.gameObject.GetComponent<Grapher>();
+        grapher.LineWidth = lineWidth;
+        grapher.Interval = interval;
         grapher.SetDraw = true;
         grapher.RenewValue(coin.MarketInfo, GraphTarget.GRAPH_COIN);
+
+        return grapher;
     }
 
     public bool TradeCoin(Character target, CoinName name, float tradeAmount)

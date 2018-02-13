@@ -17,7 +17,8 @@ public enum CoinName
     NEUTRON,
     RUSH,
     NEETCOIN_PLATINUM,
-    HARAMCOIN
+    HARAMCOIN,
+    NONE,
 }
 
 public enum MicroCoinTrend
@@ -60,7 +61,7 @@ public enum UIType
     TYPE_UI_BATTLE_WAIT,
     TYPE_UI_BATTLE_ATTACK,
     TYPE_UI_TRADE,
-    TYPE_UI_ROBBY,
+    TYPE_UI_LOBBY,
 }
 
 public enum CharacterType //02/06 추가

@@ -6,16 +6,27 @@ using UnityEngine.Events;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    GameObject battleCanvasPrefab; //전투씬UI의 프리팹
-    GameObject UICoinPrefab; //전투씬에서 동적으로 생성할 코인목록의 아이템 
+    GameObject antiInteractivePanelPrefab; //터치방지용 패널의 프리팹
     GameObject popupPrefab; //팝업창의 프리팹
+
+    GameObject lobbyCanvasPrefab; //로비씬UI의 프리팹
+
+    GameObject tradePanelPrefab; //거래창의 프리팹
+    GameObject coinTogglePrefab; //거래창 코인목록에 쓰일 코인토글의 프리팹
+
+    GameObject battleCanvasPrefab; //전투씬UI의 프리팹
+    GameObject coinItemPrefab; //전투씬에서 동적으로 생성할 코인목록의 아이템 
+
     GameObject graphCameraPrefab; //그래프용 카메라의 프리팹
     Transform graphCanvasTrans; //그래프용 캔버스의 트랜스폼
 
-    GameObject currentBattlegraph;
+    GameObject currentBattlegraph; //배틀씬중, 현재 그려지는 그래프
+    GameObject antiInteractivePanel; //터치방지용 패널
 
-    GameObject graphPrefab_battle; //그래프의 프리팹
-
+    public TradePanel TradePanelUI
+    {
+        get; set;
+    }
 
     public GameObject CurrentUIScreen //현재의 UI씬
     {
@@ -24,12 +35,14 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void UIInit() //각 UI프리팹의 초기화
     {
+        antiInteractivePanelPrefab = Resources.Load(ConstValue.AntiInteractivePanelPath) as GameObject;
+        lobbyCanvasPrefab = Resources.Load(ConstValue.LobbyUIPath) as GameObject;
+        tradePanelPrefab = Resources.Load(ConstValue.TradePanelPath) as GameObject;
+        coinTogglePrefab = Resources.Load(ConstValue.CoinTogglePath) as GameObject;
         battleCanvasPrefab = Resources.Load(ConstValue.BattleUIPath) as GameObject;
-        UICoinPrefab = Resources.Load(ConstValue.CoinUIPath) as GameObject;
+        coinItemPrefab = Resources.Load(ConstValue.CoinUIPath) as GameObject;
         popupPrefab = Resources.Load(ConstValue.PopupUIPath) as GameObject;
-        graphPrefab_battle = Resources.Load(ConstValue.GraphUIPath_Battle) as GameObject;
         graphCameraPrefab = Resources.Load(ConstValue.GraphUICameraPath) as GameObject;
-
     }
 
     public void SetSceneUI(UIType uiType) //요청한 UI타입대로 UI화면을 세팅하는 메서드
@@ -57,7 +70,8 @@ public class UIManager : MonoSingleton<UIManager>
                         playerHUD.value = playerHUD.maxValue = player.mentalPoint;
                         enemyHUD.value = enemyHUD.maxValue = BattleManager.Instance.EnemyCharacter.mentalPoint;
 
-                        graphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
+                        if (graphCanvasTrans == null)
+                            graphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
                     }
 
                     if(battleCanvas == null)
@@ -76,7 +90,7 @@ public class UIManager : MonoSingleton<UIManager>
                     //배틀화면에서 쓰이는 플레이어의 코인 목록을 동적으로 스크롤뷰에 생성
                     foreach (KeyValuePair<CoinName, Coin> pair in playerCoin)
                     {
-                        GameObject UICoin = Instantiate(UICoinPrefab);
+                        GameObject UICoin = Instantiate(coinItemPrefab);
                         Text coinText = UICoin.transform.GetComponentInChildren<Text>();
                         coinText.text = pair.Key.ToString();
                         UICoin.transform.SetParent(contentTrans, false);
@@ -85,9 +99,16 @@ public class UIManager : MonoSingleton<UIManager>
                     //BattleCanvas의 UI애니메이션 실행
                     battleCanvas.PlayAppearAnimation();
 
+                    Button confirmBtn = battleCanvas.transform.GetChild(3).GetComponentInChildren<Button>();
+                    confirmBtn.interactable = true;
+
                     //현재턴을 TurnText에 입력
                     Text turnText = battleCanvas.GetTurnText();
                     turnText.text = BattleManager.Instance.CurrentTurn.ToString();
+
+                    //캔버스의 카메라를 메인으로 설정
+                    Canvas CurrentCanvas = CurrentUIScreen.transform.GetComponent<Canvas>();
+                    CurrentCanvas.worldCamera = Camera.main;
                 }
                 break;
             case UIType.TYPE_UI_BATTLE_ATTACK: //배틀씬중 전투상태
@@ -104,8 +125,41 @@ public class UIManager : MonoSingleton<UIManager>
                 }
                 break;
             case UIType.TYPE_UI_TRADE:
+                {
+                    if(graphCanvasTrans == null)
+                        graphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
+
+                    if ( CurrentUIScreen.name.Contains("LobbyCanvas") == true)
+                    {
+                        GameObject panel = Instantiate(tradePanelPrefab);
+                        panel.transform.SetParent(graphCanvasTrans, false);
+
+                        if (TradePanelUI == null)
+                        {
+                            TradePanelUI = panel.GetComponent<TradePanel>();
+                            TradePanelUI.TradePanelInit();
+                        }
+ 
+                        Transform scrollTrans = TradePanelUI.GetCoinScrollContent();
+
+                        Dictionary<CoinName, Coin> dicCoin = CoinManager.Instance.GetCoinDictionary();
+
+                        foreach(KeyValuePair<CoinName, Coin> pair in dicCoin)
+                        {
+                            GameObject coinToggle = Instantiate(coinTogglePrefab);
+                            Text coinText = coinToggle.transform.GetComponentInChildren<Text>();
+                            coinText.text = pair.Key.ToString();
+                            coinToggle.transform.SetParent(scrollTrans, false);
+                        }
+                    }
+                }
                 break;
-            case UIType.TYPE_UI_ROBBY:
+            case UIType.TYPE_UI_LOBBY:
+                {
+                    CurrentUIScreen = Instantiate(lobbyCanvasPrefab);
+                    Canvas CurrentCanvas = CurrentUIScreen.transform.GetComponent<Canvas>();
+                    CurrentCanvas.worldCamera = Camera.main;
+                }
                 break;
         }
     }
@@ -221,7 +275,32 @@ public class UIManager : MonoSingleton<UIManager>
                 }
                 break;
             case GraphType.TYPE_IN_TRADE_GRAPH:
+                {
+                    TradePanel tradePanel = graphCanvasTrans.GetComponentInChildren<TradePanel>();
+                    Image graphImage = tradePanel.GetGraphImage();
+                    MarketManager.Instance.RegistLineGraph(coin, graphImage.transform);
+                }
                 break;
+        }
+    }
+
+    public void SetAntiInteractivePanel(bool setting)
+    {
+        if (antiInteractivePanel == null)
+        {
+            antiInteractivePanel = Instantiate(antiInteractivePanelPrefab);
+            antiInteractivePanel.SetActive(false);
+        }
+
+        antiInteractivePanel.transform.SetParent(CurrentUIScreen.transform, false);
+
+        if (setting)
+        {
+            antiInteractivePanel.SetActive(true);
+        }
+        else
+        {
+            antiInteractivePanel.SetActive(false);
         }
     }
 }

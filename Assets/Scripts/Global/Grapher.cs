@@ -10,10 +10,16 @@ public class Grapher : MonoBehaviour
 
     float UIMin = 0; //그래프를 그릴 UI높이의 최소값
     float UIMax = 0; //그래프를 그릴 UI높이의 최대값
-    float interval = 2; //그래프 각 점의 간격
     int pointCount = 40; //그래프를 구성할 정점의 총합
 
-    float _lineWidth = 300.0f; 
+    float interval = 2;
+    public float Interval //그래프 각 점의 간격
+    {
+        get { return interval; }
+        set { interval = value; }
+    }
+
+    float _lineWidth = 600.0f; 
     public float LineWidth //선의 굵기
     {
         get { return _lineWidth; }
@@ -156,6 +162,17 @@ public class Grapher : MonoBehaviour
                     }
                 }
                 break;
+        }
+    }
+
+    public Vector3 GetLastGraphPosition()
+    {
+        if (listPoint.Count > 0)
+            return listPoint[listPoint.Count - 1];
+        else
+        {
+            Debug.LogError("list is empty");
+            return Vector3.zero;
         }
     }
 }

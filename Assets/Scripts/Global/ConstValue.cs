@@ -7,8 +7,11 @@ public static class ConstValue
     public const string BattleUIPath = "Prefab/UI/BattleCanvas";
     public const string CoinUIPath = "Prefab/UI/CoinItem";
     public const string PopupUIPath = "Prefab/UI/Popup";
-    public const string GraphUIPath_Battle = "Prefab/UI/CoinGraph";
     public const string GraphUICameraPath = "Prefab/UI/GraphCamera";
+    public const string TradePanelPath = "Prefab/UI/TradePanel";
+    public const string CoinTogglePath = "Prefab/UI/CoinToggle";
+    public const string AntiInteractivePanelPath = "Prefab/UI/AntiInteractivePanel";
+    public const string LobbyUIPath = "Prefab/UI/LobbyCanvas";
 
     public const string PlayerPrefabPath = "Import/Player/Models/MazeLowMan";
     public const string Enemy1PrefabPath = "Import/Enemies/Brute Warrior/Prefabs/Brute Warrior";
@@ -16,8 +19,6 @@ public static class ConstValue
     public const string Enemy3PrefabPath = "Import/Enemies/Ninja Warrior/Prefabs/Ninja Warrior";
 
     public const string coinpath = "JsonTemplate/COIN_TEMPLATE";
-
-    public const string BattleEnterUIPath = "Prefab/UI/LobbyUI/BattleEnter";
 
     public const int FirstRound = 7;
     public const int SecondRound = 19;
