@@ -23,6 +23,16 @@ public class UIManager : MonoSingleton<UIManager>
     GameObject currentBattlegraph; //배틀씬중, 현재 그려지는 그래프
     GameObject antiInteractivePanel; //터치방지용 패널
 
+    public BattleCanvas BattleCanvasUI
+    {
+        get; set;
+    }
+
+    public LobbyCanvas LobbyCanvasUI
+    {
+        get; set;
+    }
+
     public TradePanel TradePanelUI
     {
         get; set;
@@ -131,34 +141,49 @@ public class UIManager : MonoSingleton<UIManager>
 
                     if ( CurrentUIScreen.name.Contains("LobbyCanvas") == true)
                     {
-                        GameObject panel = Instantiate(tradePanelPrefab);
-                        panel.transform.SetParent(graphCanvasTrans, false);
-
-                        if (TradePanelUI == null)
+                        if(TradePanelUI != null)
                         {
+                            TradePanelUI.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            GameObject panel = Instantiate(tradePanelPrefab);
+                            panel.transform.SetParent(graphCanvasTrans, false);
+
                             TradePanelUI = panel.GetComponent<TradePanel>();
                             TradePanelUI.TradePanelInit();
-                        }
- 
-                        Transform scrollTrans = TradePanelUI.GetCoinScrollContent();
 
-                        Dictionary<CoinName, Coin> dicCoin = CoinManager.Instance.GetCoinDictionary();
+                            Transform scrollTrans = TradePanelUI.GetCoinScrollContent();
 
-                        foreach(KeyValuePair<CoinName, Coin> pair in dicCoin)
-                        {
-                            GameObject coinToggle = Instantiate(coinTogglePrefab);
-                            Text coinText = coinToggle.transform.GetComponentInChildren<Text>();
-                            coinText.text = pair.Key.ToString();
-                            coinToggle.transform.SetParent(scrollTrans, false);
+                            Dictionary<CoinName, Coin> dicCoin = CoinManager.Instance.GetCoinDictionary();
+
+                            foreach (KeyValuePair<CoinName, Coin> pair in dicCoin)
+                            {
+                                GameObject coinToggleObj = Instantiate(coinTogglePrefab);
+                                Text coinText = coinToggleObj.transform.GetComponentInChildren<Text>();
+                                coinText.text = pair.Key.ToString();
+                                coinToggleObj.transform.SetParent(scrollTrans, false);
+                            }
                         }
                     }
                 }
                 break;
             case UIType.TYPE_UI_LOBBY:
                 {
-                    CurrentUIScreen = Instantiate(lobbyCanvasPrefab);
-                    Canvas CurrentCanvas = CurrentUIScreen.transform.GetComponent<Canvas>();
-                    CurrentCanvas.worldCamera = Camera.main;
+                    if (LobbyCanvasUI == null)
+                    {
+                        CurrentUIScreen = Instantiate(lobbyCanvasPrefab);
+                        Canvas CurrentCanvas = CurrentUIScreen.transform.GetComponent<Canvas>();
+                        CurrentCanvas.worldCamera = Camera.main;
+                        LobbyCanvasUI = CurrentUIScreen.GetComponent<LobbyCanvas>();
+                    }
+                    else
+                    {
+                        if (TradePanelUI != null)
+                        {
+                            TradePanelUI.gameObject.SetActive(false);
+                        }
+                    }
                 }
                 break;
         }

@@ -9,29 +9,41 @@ public class TradePanel : MonoBehaviour
     Image graphImage;
     InputField priceField;
     InputField amountField;
-    Toggle autoToggle;
     Button maxButton;
     Button orderButton;
 
     float deltaTime = 0;
     float renewTime = 2.0f;
 
-    CoinName prevSelectCoin = CoinName.NONE;
+    Coin _currentSelectCoin = null;
+    public Coin CurrentSelectCoin
+    {
+        get { return _currentSelectCoin; }
+        set { _currentSelectCoin = value; }
+    }
+
+    CoinName PrevSelectCoin
+    {
+        get; set;
+    } 
 
     public bool TradeActive
     {
         get; set;
     }
 
-    private void Awake()
+    public void TradePanelInit()
     {
-        coinScrollContent = this.transform.GetChild(0).GetChild(0).GetChild(0);
-        graphImage = this.transform.GetChild(1).GetComponent<Image>();
-        orderButton = this.transform.GetChild(2).GetComponent<Button>();
-        priceField = this.transform.GetChild(3).GetComponent<InputField>();
-        amountField = this.transform.GetChild(4).GetComponent<InputField>();
-        autoToggle = this.transform.GetChild(5).GetComponent<Toggle>();
-        maxButton = this.transform.GetChild(6).GetComponent<Button>();
+        coinScrollContent = transform.GetChild(0).GetChild(0).GetChild(0);
+        graphImage = transform.GetChild(1).GetComponent<Image>();
+        orderButton = transform.GetChild(2).GetComponent<Button>();
+        priceField = transform.GetChild(3).GetComponent<InputField>();
+        amountField = transform.GetChild(4).GetComponent<InputField>();
+        maxButton = transform.GetChild(5).GetComponent<Button>();
+
+        PrevSelectCoin = CoinName.NONE;
+
+        CoinToggleSelect(null);
     }
 
     private void Update()
@@ -48,14 +60,10 @@ public class TradePanel : MonoBehaviour
         }
     }
 
-    public void TradePanelInit()
-    {
-        CoinToggleSelect(null);
-    }
-
     public void CoinToggleSelect(Text coinText)
     {
-        Grapher grapher = null;
+        TradePanel currentPanel = UIManager.Instance.TradePanelUI;
+        Grapher grapher;
         CoinName cName = CoinName.NONE;
 
         if (coinText != null)
@@ -66,10 +74,12 @@ public class TradePanel : MonoBehaviour
         else
             cName = CoinName.NEETCOIN;
 
-        if (prevSelectCoin == cName)
+        currentPanel.CurrentSelectCoin = CoinManager.Instance.GetCoinDictionary()[cName];
+
+        if (currentPanel.PrevSelectCoin == cName)
             return;
 
-        prevSelectCoin = cName;
+        currentPanel.PrevSelectCoin = cName;
 
         UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_TRADE_GRAPH, cName);
         MarketManager.Instance.ChangeMarketInfo(cName);
@@ -78,19 +88,75 @@ public class TradePanel : MonoBehaviour
         Vector3 graphPos = grapher.GetLastGraphPosition();
         if (graphPos != Vector3.zero)
         {
-            Image graph = UIManager.Instance.TradePanelUI.GetGraphImage();
+            Image graph = currentPanel.GetGraphImage();
+            InputField pField = currentPanel.GetPriceField();
 
             Text currentPrice = graph.transform.GetChild(0).GetComponent<Text>();
             Vector2 pricePos = ((RectTransform)currentPrice.transform).anchoredPosition;
             pricePos.y = graphPos.y;
             ((RectTransform)currentPrice.transform).anchoredPosition = pricePos;
-            currentPrice.text = CoinManager.Instance.GetCoinDictionary()[cName].MarketInfo.CurrentPrice.ToString();
+            currentPrice.text = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice.ToString();
 
             Text maxPrice = graph.transform.GetChild(1).GetComponent<Text>();
             Text minPrice = graph.transform.GetChild(2).GetComponent<Text>();
 
-            maxPrice.text = CoinManager.Instance.GetCoinDictionary()[cName].MarketInfo.MaxFlucRange.ToString();
-            minPrice.text = CoinManager.Instance.GetCoinDictionary()[cName].MarketInfo.MinFlucRange.ToString();
+            maxPrice.text = currentPanel.CurrentSelectCoin.MarketInfo.MaxFlucRange.ToString();
+            minPrice.text = currentPanel.CurrentSelectCoin.MarketInfo.MinFlucRange.ToString();
+
+            pField.text = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice.ToString();
+        }
+    }
+
+    public void ClickMaxButton()
+    {
+        TradePanel currentPanel = UIManager.Instance.TradePanelUI;
+
+        if (currentPanel.CurrentSelectCoin == null)
+            return;
+
+        Player player = GameManager.Instance.PlayerCharacter;
+        InputField aField = currentPanel.GetAmountField();
+
+        int maxAmount = (int)(player.CurrentProperty / _currentSelectCoin.MarketInfo.CurrentPrice);
+        aField.text = maxAmount.ToString();
+    }
+
+    public void ClickOrderButton()
+    {
+        TradePanel currentPanel = UIManager.Instance.TradePanelUI;
+        InputField aField = currentPanel.GetAmountField();
+        Player player = GameManager.Instance.PlayerCharacter;
+        int amount = int.Parse(aField.text);
+        float price = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice * amount;
+
+        player.CurrentProperty -= price;
+        player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount += amount;
+    }
+
+    public void ClickOKButton()
+    {
+        UIManager.Instance.SetSceneUI(UIType.TYPE_UI_LOBBY);
+    }
+
+    public void ChangeAmountInputField()
+    {
+        TradePanel currentPanel = UIManager.Instance.TradePanelUI;
+        InputField aField = currentPanel.GetAmountField();
+        Player player = GameManager.Instance.PlayerCharacter;
+        int amount = int.Parse(aField.text);
+        float price = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice * amount;
+
+        if(amount < 0)
+        {
+            aField.text = "0";
+            return;
+        }
+
+        if (price > player.CurrentProperty)
+        {
+            int maxAmount = (int)(player.CurrentProperty / _currentSelectCoin.MarketInfo.CurrentPrice);
+            aField.text = maxAmount.ToString();
+            return;
         }
     }
 
@@ -132,16 +198,6 @@ public class TradePanel : MonoBehaviour
             return null;
         }
         return amountField;
-    }
-
-    public Toggle GetAutoToggle()
-    {
-        if (autoToggle == null)
-        {
-            Debug.LogError("AutoToggle is not exist");
-            return null;
-        }
-        return autoToggle;
     }
 
     public Button GetMaxButton()
