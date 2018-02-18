@@ -57,6 +57,7 @@ public enum CoinAnimType
 
 public enum UIType
 {
+    TYPE_UI_NONE,
     TYPE_UI_TITLE,
     TYPE_UI_BATTLE_WAIT,
     TYPE_UI_BATTLE_ATTACK,

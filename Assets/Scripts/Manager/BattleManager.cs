@@ -5,6 +5,7 @@ using UnityEngine;
 public class BattleManager : MonoSingleton<BattleManager>
 {
     GameObject enemyPrefab;
+    bool skip = false;
 
     Player player; //플레이어
 
@@ -23,6 +24,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int CurrentTurnCost
     {
         get; set;
+    }
+
+    private void Update()
+    {
+        if(UIManager.Instance.IsAntiInteractive() == true && Input.GetMouseButtonDown(0) == true )
+        {
+            skip = true;
+        }
     }
 
     public void BattleInit(Stage stage) //배틀씬의 초기화
@@ -53,11 +62,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         //턴 갱신과 UI세팅
         TurnChange();
         UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_WAIT);
-    }
-
-    public override void CustomUpdate()
-    {
-
     }
 
     void TurnChange() //턴 갱신용 메서드
@@ -96,15 +100,39 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         //코인목록별로 UIManager에게 그래프를 그려달라고 요청후 한번씩 시세변경을 시도한다
         foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
+            MarketManager.Instance.ChangeMarketInfo(pair.Key);
+
+        foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
         {
             listPlayerCoin.Add(pair.Value);
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true);
             yield return new WaitForSeconds(1);
-            MarketManager.Instance.ChangeMarketInfo(pair.Key);
+            if (skip == true)
+            {
+                UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
+                break;
+            }
             MarketManager.Instance.RenderLineGraph(pair.Key);
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true, true);
             yield return new WaitForSeconds(1);
+            if (skip == true)
+            {
+                UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
+                break;
+            }
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
+        }
+
+        if(skip == true)
+        {
+            GameObject coinScroll = UIManager.Instance.BattleCanvasUI.GetCoinScrollObject();
+            Transform scrollContent = coinScroll.transform.GetChild(0).GetChild(0);
+
+            for (int i = 0; i < scrollContent.childCount; ++i)
+            {
+                GameObject coinUI = scrollContent.GetChild(i).gameObject;
+                coinUI.SetActive(false);
+            }
         }
 
         foreach (KeyValuePair<CoinName, Coin> pair in _enemy.DicCoin)
@@ -170,6 +198,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void TurnEnd()
     {
+        skip = false;
         _currentTurn++;
         TurnChange();
         UIManager.Instance.SetAntiInteractivePanel(false);

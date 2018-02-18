@@ -43,6 +43,11 @@ public class UIManager : MonoSingleton<UIManager>
         get; set;
     }
 
+    public UIType CurrentUIType
+    {
+        get; set;
+    }
+
     public void UIInit() //각 UI프리팹의 초기화
     {
         antiInteractivePanelPrefab = Resources.Load(ConstValue.AntiInteractivePanelPath) as GameObject;
@@ -57,13 +62,14 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void SetSceneUI(UIType uiType) //요청한 UI타입대로 UI화면을 세팅하는 메서드
     {
+        CurrentUIType = uiType;
         switch (uiType)
         {
             case UIType.TYPE_UI_TITLE:
                 break;
             case UIType.TYPE_UI_BATTLE_WAIT: //배틀씬중 입력대기상태 UI
                 {
-                    BattleCanvas battleCanvas = null;
+                    //BattleCanvas battleCanvas = null;
                     Player player = GameManager.Instance.PlayerCharacter;
 
                     // 현재의 UI화면이 없거나 배틀UI가 아닐경우
@@ -73,9 +79,9 @@ public class UIManager : MonoSingleton<UIManager>
                         CurrentUIScreen = Instantiate(battleCanvasPrefab);
 
                         //각 유닛의 HUD초기화
-                        battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
-                        Slider playerHUD = battleCanvas.GetPlayerHUD();
-                        Slider enemyHUD = battleCanvas.GetEnemyHUD();
+                        BattleCanvasUI = CurrentUIScreen.GetComponent<BattleCanvas>();
+                        Slider playerHUD = BattleCanvasUI.GetPlayerHUD();
+                        Slider enemyHUD = BattleCanvasUI.GetEnemyHUD();
 
                         playerHUD.value = playerHUD.maxValue = player.mentalPoint;
                         enemyHUD.value = enemyHUD.maxValue = BattleManager.Instance.EnemyCharacter.mentalPoint;
@@ -84,8 +90,8 @@ public class UIManager : MonoSingleton<UIManager>
                             graphCanvasTrans = Instantiate(graphCameraPrefab).GetComponentInChildren<Canvas>().transform;
                     }
 
-                    if(battleCanvas == null)
-                        battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
+                    if(BattleCanvasUI == null)
+                        BattleCanvasUI = CurrentUIScreen.GetComponent<BattleCanvas>();
 
                     //코인목록을 생성해야되는 스크롤뷰의 Content와 코인목록의 정보를 가진 플레이어 정보를 가지고 옴
                     Transform contentTrans = CurrentUIScreen.transform.Find("CoinScroll").GetChild(0).GetChild(0);
@@ -107,13 +113,13 @@ public class UIManager : MonoSingleton<UIManager>
                     }
 
                     //BattleCanvas의 UI애니메이션 실행
-                    battleCanvas.PlayAppearAnimation();
+                    BattleCanvasUI.PlayAppearAnimation();
 
-                    Button confirmBtn = battleCanvas.transform.GetChild(3).GetComponentInChildren<Button>();
+                    Button confirmBtn = BattleCanvasUI.transform.GetChild(3).GetComponentInChildren<Button>();
                     confirmBtn.interactable = true;
 
                     //현재턴을 TurnText에 입력
-                    Text turnText = battleCanvas.GetTurnText();
+                    Text turnText = BattleCanvasUI.GetTurnText();
                     turnText.text = BattleManager.Instance.CurrentTurn.ToString();
 
                     //캔버스의 카메라를 메인으로 설정
@@ -262,8 +268,8 @@ public class UIManager : MonoSingleton<UIManager>
                         }
 
                         //배틀씬의 UI정보를 받아옴
-                        BattleCanvas battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
-                        GameObject coinScroll = battleCanvas.GetCoinScrollObject();
+                        //BattleCanvas battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
+                        GameObject coinScroll = BattleCanvasUI.GetCoinScrollObject();
                         Transform scrollContent = coinScroll.transform.GetChild(0).GetChild(0);
 
                         //스크롤뷰 안의 코인목록을 순회하며 요청한 그래프의 코인일 경우 코인목록UI를 복사후 애니메이션 실행, 그래프 렌더
@@ -327,5 +333,13 @@ public class UIManager : MonoSingleton<UIManager>
         {
             antiInteractivePanel.SetActive(false);
         }
+    }
+
+    public bool IsAntiInteractive()
+    {
+        if (antiInteractivePanel == null)
+            return false;
+
+        return antiInteractivePanel.activeInHierarchy;
     }
 }
