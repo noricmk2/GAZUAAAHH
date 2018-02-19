@@ -129,8 +129,14 @@ public class TradePanel : MonoBehaviour
         int amount = int.Parse(aField.text);
         float price = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice * amount;
 
+        if (player.CurrentProperty < price)
+            return;
+
         player.CurrentProperty -= price;
+        Coin target = CoinManager.Instance.GetCoinDictionary()[currentPanel.CurrentSelectCoin.Name];
+        player.DicCoin.Add(currentPanel.CurrentSelectCoin.Name, new Coin(target));
         player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount += amount;
+        aField.text = "0";
     }
 
     public void ClickOKButton()

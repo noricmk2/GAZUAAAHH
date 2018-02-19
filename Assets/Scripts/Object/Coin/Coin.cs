@@ -65,4 +65,14 @@ public class Coin
         Seed2 = Seed1;
         BattleType = CoinBattleType.TYPE_NORMAL_COIN;
     }
+
+    public Coin(Coin coin)
+    {
+        _marketInfo = coin.MarketInfo;
+        Name = coin.Name;
+        CoinSkill = coin.CoinSkill;
+        Seed1 = coin.Seed1;
+        Seed2 = coin.Seed2;
+        BattleType = CoinBattleType.TYPE_NORMAL_COIN;
+    }
 }

@@ -199,6 +199,13 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void TurnEnd()
     {
         skip = false;
+
+        foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
+        {
+            if(pair.Value.CoinAmount <= 0)
+                player.DicCoin.Remove(pair.Key);
+        }
+
         _currentTurn++;
         TurnChange();
         UIManager.Instance.SetAntiInteractivePanel(false);

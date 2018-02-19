@@ -15,7 +15,7 @@ public class Player : Character
     {
         base.Init();
         characterType = CharacterType.TYPE_PLAYER;
-        DicCoin = CoinManager.Instance.GetCoinDictionary(); // 임시
+        //DicCoin = CoinManager.Instance.GetCoinDictionary(); // 임시
         _currentProperty = 5000000f;//테스트용 자산 초기화
     }  
     public void SetView(bool isView)

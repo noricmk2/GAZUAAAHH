@@ -16,12 +16,18 @@ public class UIManager : MonoSingleton<UIManager>
 
     GameObject battleCanvasPrefab; //전투씬UI의 프리팹
     GameObject coinItemPrefab; //전투씬에서 동적으로 생성할 코인목록의 아이템 
+    GameObject resultPanelPrefab; //전투결과 패널의 프리팹
 
     GameObject graphCameraPrefab; //그래프용 카메라의 프리팹
     Transform graphCanvasTrans; //그래프용 캔버스의 트랜스폼
 
     GameObject currentBattlegraph; //배틀씬중, 현재 그려지는 그래프
     GameObject antiInteractivePanel; //터치방지용 패널
+
+    public ResultPanel ResultPanelUI
+    {
+        get; set;
+    }
 
     public BattleCanvas BattleCanvasUI
     {
@@ -56,6 +62,7 @@ public class UIManager : MonoSingleton<UIManager>
         coinTogglePrefab = Resources.Load(ConstValue.CoinTogglePath) as GameObject;
         battleCanvasPrefab = Resources.Load(ConstValue.BattleUIPath) as GameObject;
         coinItemPrefab = Resources.Load(ConstValue.CoinUIPath) as GameObject;
+        resultPanelPrefab = Resources.Load(ConstValue.ResultPanelPatt) as GameObject;
         popupPrefab = Resources.Load(ConstValue.PopupUIPath) as GameObject;
         graphCameraPrefab = Resources.Load(ConstValue.GraphUICameraPath) as GameObject;
     }
@@ -140,6 +147,13 @@ public class UIManager : MonoSingleton<UIManager>
                     battleCanvas.PlayDisappearAnimation();
                 }
                 break;
+
+            case UIType.TYPE_UI_BATTLE_RESULT:
+                {
+                    
+                }
+                break;
+
             case UIType.TYPE_UI_TRADE:
                 {
                     if(graphCanvasTrans == null)
