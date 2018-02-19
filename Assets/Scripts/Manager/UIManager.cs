@@ -158,6 +158,7 @@ public class UIManager : MonoSingleton<UIManager>
                     {
                         GameObject panel = Instantiate(resultPanelPrefab);
                         ResultPanelUI = panel.GetComponent<ResultPanel>();
+                        ResultPanelUI.ResultPanelInit();
                     }
 
                     if(GameManager.Instance.PlayerCharacter.mentalPoint <= 0)

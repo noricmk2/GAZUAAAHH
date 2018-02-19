@@ -98,6 +98,7 @@ public class Character : BaseObject
             if (mentalPoint <= 0)
             {
                 animationPlayer.PlayAnimation(AnimationType.TYPE_DEAD);
+                UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_RESULT);
                 return;
             }
             else

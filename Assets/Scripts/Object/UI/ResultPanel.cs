@@ -12,8 +12,8 @@ public class ResultPanel : MonoBehaviour
 
     public void ResultPanelInit()
     {
-        resultImage = UIManager.Instance.ResultPanelUI.GetComponent<Image>();
-        returnButton = UIManager.Instance.ResultPanelUI.GetComponent<Button>();
+        resultImage = UIManager.Instance.ResultPanelUI.transform.GetChild(1).GetComponent<Image>();
+        returnButton = UIManager.Instance.ResultPanelUI.GetComponentInChildren<Button>();
         UIAnimation = UIManager.Instance.ResultPanelUI.GetComponent<Animation>();
     }
 
