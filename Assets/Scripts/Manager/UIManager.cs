@@ -62,7 +62,7 @@ public class UIManager : MonoSingleton<UIManager>
         coinTogglePrefab = Resources.Load(ConstValue.CoinTogglePath) as GameObject;
         battleCanvasPrefab = Resources.Load(ConstValue.BattleUIPath) as GameObject;
         coinItemPrefab = Resources.Load(ConstValue.CoinUIPath) as GameObject;
-        resultPanelPrefab = Resources.Load(ConstValue.ResultPanelPatt) as GameObject;
+        resultPanelPrefab = Resources.Load(ConstValue.ResultPanelPath) as GameObject;
         popupPrefab = Resources.Load(ConstValue.PopupUIPath) as GameObject;
         graphCameraPrefab = Resources.Load(ConstValue.GraphUICameraPath) as GameObject;
     }

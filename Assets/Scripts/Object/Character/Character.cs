@@ -94,18 +94,7 @@ public class Character : BaseObject
 
         if (damage > deffencePoint) // 방어력보다 공격력이 높을 때
         {
-            mentalPoint -= (damage - deffencePoint); //데미지 적용
-            //bool _characteType;
-            //if(characterType == CharacterType.TYPE_PLAYER)
-            //{
-            //    _characteType = true;
-            //}
-            //else
-            //{
-            //    _characteType = false;
-            //}
-            //UIManager.Instance.CurrentUIScreen.GetComponent<BattleCanvas>().PlayerHudAnimation((damage - deffencePoint), _characteType);
-
+            mentalPoint -= (damage - deffencePoint); //데미지 적용           
             if (mentalPoint <= 0)
             {
                 animationPlayer.PlayAnimation(AnimationType.TYPE_DEAD);
@@ -117,10 +106,8 @@ public class Character : BaseObject
             }
         }
         else
-        {
-            animationPlayer.PlayAnimation(AnimationType.TYPE_DAMAGE);//임시
-            //animationPlayer.PlayAnimation(AnimationType.TYPE_DEFFENCE); 
-
+        {          
+            animationPlayer.PlayAnimation(AnimationType.TYPE_DEFFENCE); 
         }
     }
 

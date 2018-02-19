@@ -9,11 +9,13 @@ public class UIStage : BaseObject
     public bool isClear { get; set; }
     public BattleEnterUI battleEnter;
     public Stage stage;
+    Color orgColor;
     //bool isSelect;
 
     public override void Init()
     {
-        image = gameObject.GetComponent<Image>();     
+        image = gameObject.GetComponent<Image>();
+        image.color = new Color(0.7f, 0.7f, 0.7f);
         isClear = false;
         //isSelect = false;
     }
@@ -32,6 +34,17 @@ public class UIStage : BaseObject
         {
             battleEnter.OnBattleEnter(stage); //호출할 스테이지의 정보전달 필요    
         }
+    }
+
+    public void HighlightOn()
+    {
+        orgColor = image.color;
+        image.color = new Color(1,1,1);
+    }
+
+    public void HighlightOff()
+    {
+        image.color = orgColor;
     }
 
 }

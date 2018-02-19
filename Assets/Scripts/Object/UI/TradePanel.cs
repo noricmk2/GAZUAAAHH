@@ -129,7 +129,7 @@ public class TradePanel : MonoBehaviour
         int amount = int.Parse(aField.text);
         float price = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice * amount;
 
-        if (player.CurrentProperty < price)
+        if (player.CurrentProperty < price || price == 0)
             return;
 
         player.CurrentProperty -= price;

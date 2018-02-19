@@ -38,7 +38,7 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.UIInit();
 
         _player = Instantiate(dicCharacterPrefabs[CharacterType.TYPE_PLAYER]).GetComponent<Player>();
-        //player.SetView(false);
+        _player.SetView(false); // 2/19
         _player.Init();
 
         CurrentStage = Stage.STAGE1;
@@ -64,9 +64,11 @@ public class GameManager : MonoSingleton<GameManager>
             case SceneType.TYPE_SCENE_LOGO:
                 break;
             case SceneType.TYPE_SCENE_ROBBY:
+                _player.SetView(false); // 2/19
                 UIManager.Instance.SetSceneUI(UIType.TYPE_UI_LOBBY); //02/13추가
                 break;
             case SceneType.TYPE_SCENE_BATTLE:
+                _player.SetView(true); // 2/19
                 BattleManager.Instance.BattleInit(CurrentStage);
                 break;
         }

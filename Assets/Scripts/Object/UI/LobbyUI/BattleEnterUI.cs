@@ -26,6 +26,7 @@ public class BattleEnterUI : BaseObject {
         gameObject.SetActive(false);
         lobby.LobbyOut();
 
+        GameManager.Instance.CurrentStage = stage;
         GameManager.Instance.SceneChange(SceneType.TYPE_SCENE_BATTLE);
     }
 	

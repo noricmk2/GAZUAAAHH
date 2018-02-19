@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BattleManager : MonoSingleton<BattleManager>
 {
+    GameObject StageMap;
+
     GameObject enemyPrefab;
     bool skip = false;
 
@@ -39,6 +41,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         _currentTurn = 1;
 
         player = GameManager.Instance.PlayerCharacter;
+        StageMap = Instantiate(Resources.Load("Import/Map/Low Poly Golden Gate(fix)") as GameObject); //맵 생성
 
         //스테이지에 따른 에너미 할당
         switch (stage)
@@ -54,7 +57,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                 break;
         }
 
-        _enemy = Instantiate(enemyPrefab,new Vector3(0,0,10),new Quaternion(0,180,0,0)).GetComponent<Enemy>();
+        //_enemy = Instantiate(enemyPrefab,new Vector3(0,0,10),new Quaternion(0,180,0,0)).GetComponent<Enemy>();
+        _enemy = Instantiate(enemyPrefab).GetComponent<Enemy>(); //프리팹이 좌표값을 가지도록 수정
         _enemy.Init();
         _enemy.target = player;
         player.target = _enemy;
@@ -199,13 +203,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void TurnEnd()
     {
         skip = false;
-
-        foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
-        {
-            if(pair.Value.CoinAmount <= 0)
-                player.DicCoin.Remove(pair.Key);
-        }
-
         _currentTurn++;
         TurnChange();
         UIManager.Instance.SetAntiInteractivePanel(false);

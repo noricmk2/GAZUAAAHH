@@ -1,0 +1,107 @@
+{
+	"ENEMY1_COIN_TEMPLATE": {
+		"NEETCOIN": {
+			"Amount": 10
+		},
+		"ATHURIUM": {
+			"Amount": 10
+		},
+		"SUFFLE": {
+			"Amount": 100
+		},
+		"AOS": {
+			"Amount": 500
+		},
+		"NEETCOIN_CASH": {
+			"Amount": 5
+		},
+		"ATHURIUM_CLASSIC": {
+			"Amount": 5
+		},
+		"NIGHTCOIN": {
+			"Amount": 10
+		},
+		"NEUTRON": {
+			"Amount": 50
+		},
+		"RUSH": {
+			"Amount": 10
+		},
+		"NEETCOIN_PLATINUM": {
+			"Amount": 500
+		},
+		"HARAMCOIN": {
+			"Amount": 500
+		}
+	},
+	"ENEMY2_COIN_TEMPLATE": {
+		"NEETCOIN": {
+			"Amount": 10
+		},
+		"ATHURIUM": {
+			"Amount": 10
+		},
+		"SUFFLE": {
+			"Amount": 100
+		},
+		"AOS": {
+			"Amount": 500
+		},
+		"NEETCOIN_CASH": {
+			"Amount": 5
+		},
+		"ATHURIUM_CLASSIC": {
+			"Amount": 5
+		},
+		"NIGHTCOIN": {
+			"Amount": 10
+		},
+		"NEUTRON": {
+			"Amount": 50
+		},
+		"RUSH": {
+			"Amount": 10
+		},
+		"NEETCOIN_PLATINUM": {
+			"Amount": 500
+		},
+		"HARAMCOIN": {
+			"Amount": 500
+		}
+	},
+	"ENEMY3_COIN_TEMPLATE": {
+		"NEETCOIN": {
+			"Amount": 10
+		},
+		"ATHURIUM": {
+			"Amount": 10
+		},
+		"SUFFLE": {
+			"Amount": 100
+		},
+		"AOS": {
+			"Amount": 500
+		},
+		"NEETCOIN_CASH": {
+			"Amount": 5
+		},
+		"ATHURIUM_CLASSIC": {
+			"Amount": 5
+		},
+		"NIGHTCOIN": {
+			"Amount": 10
+		},
+		"NEUTRON": {
+			"Amount": 50
+		},
+		"RUSH": {
+			"Amount": 10
+		},
+		"NEETCOIN_PLATINUM": {
+			"Amount": 500
+		},
+		"HARAMCOIN": {
+			"Amount": 500
+		}
+	}
+}
