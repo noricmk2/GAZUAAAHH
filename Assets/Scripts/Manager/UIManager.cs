@@ -150,7 +150,22 @@ public class UIManager : MonoSingleton<UIManager>
 
             case UIType.TYPE_UI_BATTLE_RESULT:
                 {
-                    
+                    if (ResultPanelUI != null)
+                    {
+                        ResultPanelUI.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        GameObject panel = Instantiate(resultPanelPrefab);
+                        ResultPanelUI = panel.GetComponent<ResultPanel>();
+                    }
+
+                    if(GameManager.Instance.PlayerCharacter.mentalPoint <= 0)
+                        ResultPanelUI.SetResultImage(ResultType.TYPE_RESULT_DEFEAT);
+                    else
+                        ResultPanelUI.SetResultImage(ResultType.TYPE_RESULT_WIN);
+
+                    ResultPanelUI.PlayAppearAnimation();
                 }
                 break;
 
@@ -190,6 +205,9 @@ public class UIManager : MonoSingleton<UIManager>
                 break;
             case UIType.TYPE_UI_LOBBY:
                 {
+                    if (ResultPanelUI != null)
+                        ResultPanelUI.gameObject.SetActive(false);
+
                     if (LobbyCanvasUI == null)
                     {
                         CurrentUIScreen = Instantiate(lobbyCanvasPrefab);

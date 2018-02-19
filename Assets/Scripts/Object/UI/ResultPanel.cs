@@ -1,8 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResultPanel : MonoBehaviour
 {
+    Image resultImage;
+    Button returnButton;
+    Animation UIAnimation;
+    string clipName = "ResultPanelAppear"; 
 
+    public void ResultPanelInit()
+    {
+        resultImage = UIManager.Instance.ResultPanelUI.GetComponent<Image>();
+        returnButton = UIManager.Instance.ResultPanelUI.GetComponent<Button>();
+        UIAnimation = UIManager.Instance.ResultPanelUI.GetComponent<Animation>();
+    }
+
+    public void PlayDisappearAnimation() //UI가 사라질때의 애니메이션
+    {
+        UIAnimation[clipName].speed = -1;
+        UIAnimation[clipName].time = UIAnimation[clipName].length;
+        UIAnimation.Play(clipName);
+    }
+
+    public void PlayAppearAnimation() //UI가 나타날때의 애니메이션
+    {
+        UIAnimation[clipName].speed = 1;
+        UIAnimation[clipName].time = 0;
+        UIAnimation.Play(clipName);
+    }
+
+    public void ClickReturnButton()
+    {
+        StartCoroutine("ReturnToRobby");
+    }
+
+    IEnumerator ReturnToRobby()
+    {
+        PlayDisappearAnimation();
+
+        yield return new WaitForSeconds(1);
+
+        UIManager.Instance.SetSceneUI(UIType.TYPE_UI_LOBBY);
+    }
+
+    public void SetResultImage(ResultType type)
+    {
+        switch (type)
+        {
+            case ResultType.TYPE_RESULT_WIN:
+
+                break;
+            case ResultType.TYPE_RESULT_DEFEAT:
+                break;
+        }
+    }
 }

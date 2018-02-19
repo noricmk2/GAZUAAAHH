@@ -145,3 +145,9 @@ public enum SkillType // 02/05일 추가 0207변경
 
 }
 
+public enum ResultType
+{
+    TYPE_RESULT_WIN,
+    TYPE_RESULT_DEFEAT,
+}
+
