@@ -40,7 +40,7 @@ public class CoinSetPanel : MonoBehaviour
             () => 
             {
                 settingCoin.BattleType = CoinBattleType.TYPE_NORMAL_COIN;
-                BattleManager.Instance.CurrentTurnCost += settingCoin.CoinAmountInBattle * (int)settingCoin.MarketInfo.CurrentPrice;
+                BattleManager.Instance.RemainCost += settingCoin.CoinAmountInBattle * (int)settingCoin.MarketInfo.CurrentPrice;
                 settingCoin.CoinAmountInBattle = 0;
                 PanelInit(cName);
             },
@@ -53,7 +53,7 @@ public class CoinSetPanel : MonoBehaviour
         //슬라이더 값 초기화
         coinAmountSlider.value = 0;
         //코인의 하나의 가격이 코스트 자체를 넘는다면 예외처리 
-        if (BattleManager.Instance.CurrentTurnCost < settingCoin.MarketInfo.CurrentPrice)
+        if (BattleManager.Instance.RemainCost < settingCoin.MarketInfo.CurrentPrice)
         {
             coinAmountSlider.interactable = false;
             UIManager.Instance.SetPopup("Cost Over", "Ok");
@@ -61,10 +61,10 @@ public class CoinSetPanel : MonoBehaviour
             return;
         }
         //현재코스트와 세팅코인의 가격에 맞게 슬라이더의 최대값 설정
-        coinAmountSlider.maxValue = BattleManager.Instance.CurrentTurnCost / settingCoin.MarketInfo.CurrentPrice;
+        coinAmountSlider.maxValue = Mathf.FloorToInt(BattleManager.Instance.RemainCost / settingCoin.MarketInfo.CurrentPrice);
         coinAmountSlider.minValue = 0;
 
-        costText.text = coinAmountSlider.value.ToString() + " / " + ((int)BattleManager.Instance.CurrentTurnCost).ToString();
+        costText.text = coinAmountSlider.value.ToString() + " / " + (BattleManager.Instance.RemainCost).ToString();
     }
 
     public void TempConfirm() //결정 버튼을 눌렀을 때의 임시 설정 처리
@@ -83,7 +83,7 @@ public class CoinSetPanel : MonoBehaviour
         }
 
         //현재코스트에서 설정한 수량만큼의 가격을 빼준다
-        BattleManager.Instance.CurrentTurnCost -= (int)settingPrice;
+        BattleManager.Instance.RemainCost -= (int)settingPrice;
         settingCoin.CoinAmountInBattle = settingAmount;
 
         //공수타입에 따라 이미지 세팅
@@ -114,11 +114,11 @@ public class CoinSetPanel : MonoBehaviour
 
     public void ChangeSliderValue() //슬라이더를 통한 수량 변경시의 메서드
     {
-        if (coinAmountSlider.value > settingCoin.CoinAmount)
+        if (coinAmountSlider.value >= settingCoin.CoinAmount)
             coinAmountSlider.value = settingCoin.CoinAmount;
 
-        settingAmount = (int)coinAmountSlider.value;
+        settingAmount = Mathf.FloorToInt(coinAmountSlider.value);
         settingPrice = coinAmountSlider.value * settingCoin.MarketInfo.CurrentPrice;
-        costText.text = settingPrice.ToString() + " / " + ((int)BattleManager.Instance.CurrentTurnCost).ToString();
+        costText.text = settingPrice.ToString() + " / " + (BattleManager.Instance.RemainCost).ToString();
     }
 }

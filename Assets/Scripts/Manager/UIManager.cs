@@ -157,6 +157,7 @@ public class UIManager : MonoSingleton<UIManager>
                     else
                     {
                         GameObject panel = Instantiate(resultPanelPrefab);
+                        panel.transform.SetParent(CurrentUIScreen.transform, false);
                         ResultPanelUI = panel.GetComponent<ResultPanel>();
                         ResultPanelUI.ResultPanelInit();
                     }

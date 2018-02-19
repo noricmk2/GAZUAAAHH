@@ -28,6 +28,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         get; set;
     }
 
+    public int RemainCost
+    {
+        get; set;
+    }
+
     private void Update()
     {
         if(UIManager.Instance.IsAntiInteractive() == true && Input.GetMouseButtonDown(0) == true )
@@ -91,6 +96,8 @@ public class BattleManager : MonoSingleton<BattleManager>
             CurrentTurnCost = ConstValue.NinthTurnCost;
         else
             CurrentTurnCost = ConstValue.TenthTurnCost;
+
+        RemainCost = CurrentTurnCost;
     }
 
     public IEnumerator BattleStart() //모든 입력이 끝나고 전투에 돌입했을시의 실행 메서드
@@ -202,6 +209,9 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void TurnEnd()
     {
+        foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
+            pair.Value.BattleType = CoinBattleType.TYPE_NORMAL_COIN;
+
         skip = false;
         _currentTurn++;
         TurnChange();
