@@ -7,8 +7,9 @@ public class Character : BaseObject
     public Character target;
     public Dictionary<CoinName, Coin> DicCoin { get; set; }
     public float mentalPoint; // 멘탈치 HP개념
+    public float maxMP;
     public int cost { get; set; } //코스트
-    public int property { get; set; }
+    public Vector3 defaultPosition;
 
     float attackPoint; // 배틀 매니저에서 받아온 공격포인트
     float deffencePoint; // 배틀 매니저에서 받아온 방어포인트
@@ -22,13 +23,16 @@ public class Character : BaseObject
     public List<Coin> listSelectCoins { get; set; }//공격할 코인을 저장하는 변수    
     CoinAnimation CoinAnimation;
 
+    public Shield shield;
+
     public override void Init()
     {       
         animationPlayer = GetComponent<AnimationPlayer>();
         animationPlayer.Init();
         animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
+        maxMP = mentalPoint;
+        defaultPosition = transform.position;
         //TODO 코인 매니저에서 코인정보 획득
-
     }
 
     public virtual void SelectCoin() //드로우한 코인중 사용할 코인 선택
@@ -49,17 +53,22 @@ public class Character : BaseObject
 
     public void Battle()
     {
+
         if (isAttack == false)
         {
-           //if (characterType == CharacterType.TYPE_PLAYER)
-           //{
-           //    animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_WAIT);
-           //    CoinAnimationWait();
-           //}
-           //else
+            if (CoinAnimationPlay)
             {
-                animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행                
+                target.shield.CreateShield(9);
+                animationPlayer.PlayAnimation(AnimationType.TYPE_GOB_WAIT);
             }
+            else
+            {
+                target.shield.CreateShield(3);
+                animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행          
+            }
+
+            
+           
         }
         if (isAttack == true && target.isAttack == true)
         {
@@ -69,6 +78,7 @@ public class Character : BaseObject
 
     public virtual void Attack()
     {
+
         animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
         if (isAttack == false)
         {
@@ -80,7 +90,7 @@ public class Character : BaseObject
 
     public virtual void Deffence(float damage)
     {
-
+        
         bool _characteType;
         if (characterType == CharacterType.TYPE_PLAYER)
         {
@@ -103,6 +113,7 @@ public class Character : BaseObject
             }
             else
             {
+                shield.BreakShield();
                 animationPlayer.PlayAnimation(AnimationType.TYPE_DAMAGE); //피격 애니메이션 실행                    
             }
         }
@@ -145,7 +156,14 @@ public class Character : BaseObject
 
         Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
         GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
-        CoinAnimation.CoinAnimInit(testCoin1, testCoin, CoinAnimation.transform, target.transform, CoinAnimType.TYPE_GATE_BABYLON_ANIM);
+
+        Transform targetTransform;
+        if (target.deffencePoint >= attackPoint)        
+            targetTransform = target.shield.transform;       
+        else
+            targetTransform = target.transform;
+
+        CoinAnimation.CoinAnimInit(testCoin1, testCoin, CoinAnimation.transform, targetTransform, CoinAnimType.TYPE_GATE_BABYLON_ANIM);
         CoinAnimation.StartCoroutine("SpawnCoin");
     }
 
@@ -165,11 +183,16 @@ public class Character : BaseObject
 
         Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
         GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
-     
-        CoinAnimation.CoinAnimInit(testCoin1, testCoin, CoinAnimation.transform, target.transform, CoinAnimType.TYPE_BASE_ATTACK_ANIM);
+
+        Transform targetTransform;
+        if (target.deffencePoint >= attackPoint)
+            targetTransform = target.shield.transform;
+        else
+            targetTransform = target.transform;
+
+        CoinAnimation.CoinAnimInit(testCoin1, testCoin, CoinAnimation.transform, targetTransform, CoinAnimType.TYPE_BASE_ATTACK_ANIM);
         CoinAnimation.StartCoroutine("SpawnCoin");
         CoinAnimation.StartAnimation = true;
     }
-
 
 }

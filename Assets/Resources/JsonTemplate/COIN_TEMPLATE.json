@@ -7,7 +7,7 @@
     },
     "ATHURIUM": {
       "Price": 800000,
-      "Skill": 1,
+      "Skill": 0,
       "Amount": 10
     },
     "SUFFLE": {
@@ -17,7 +17,7 @@
     },
     "AOS": {
       "Price": 9000,
-      "Skill": 1,
+      "Skill": 2,
       "Amount": 50
     },
     "NEETCOIN_CASH": {
@@ -37,22 +37,22 @@
     },
     "NEUTRON": {
       "Price": 25000,
-      "Skill": 1,
+      "Skill": 2,
       "Amount": 20
     },
     "RUSH": {
       "Price": 400000,
-      "Skill": 1,
+      "Skill": 0,
       "Amount": 15
     },
     "NEETCOIN_PLATINUM": {
       "Price": 13000,
-      "Skill": 1,
+      "Skill": 0,
       "Amount": 50
     },
     "HARAMCOIN": {
       "Price": 400,
-      "Skill": 1,
+      "Skill": 0,
       "Amount": 300
     }
   }

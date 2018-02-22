@@ -24,42 +24,10 @@ public class Player : Character
         skin.enabled = isView;       
     }
 
-    //public override void SelectCoin() //사용할 코인 선택
-    //{
-    //    float attackRate = Random.Range(0.2f, 0.8f); //공격 비중을 랜덤으로 지정
-    //    float deffenceRate = (1 - attackRate); // 공격 비중에 따라 방어 비중 지정
-    //    float attackCost = cost * attackRate;
-    //    float deffenceCost = cost * deffenceRate;
-
-    //    foreach (KeyValuePair<CoinName, Coin> pair in DicCoin)
-    //    {
-    //        Coin coin = pair.Value;
-    //        int type; //코인을 방어에 쓸지 공격에 쓸지 랜덤으로 선택
-
-    //        if (coin.MarketInfo.CurrentPrice < attackCost && coin.MarketInfo.CurrentPrice < deffenceCost)
-    //            type = Random.Range(0, 1);
-    //        else if (coin.MarketInfo.CurrentPrice < attackCost)
-    //            type = 0;
-    //        else if (coin.MarketInfo.CurrentPrice < deffenceCost)
-    //            type = 1;
-    //        else
-    //            continue;
-
-    //        if (type == 0)
-    //        {
-    //            coin.BattleType = CoinBattleType.TYPE_ATTACK_COIN;
-    //            attackCost -= coin.MarketInfo.CurrentPrice;
-    //        }
-    //        if (type == 1)
-    //        {
-    //            coin.BattleType = CoinBattleType.TYPE_DEFFENCE_COIN;
-    //            deffenceCost -= coin.MarketInfo.CurrentPrice;
-    //        }
-
-    //        listSelectCoins.Add(coin);
-    //    }
-
-    //    //코인을 선택했으면 캐릭터 상태를 Battle로 바꿈
-    //    characterState = CharacterState.TYPE_BATTLE;
-    //}
+    public void BattleEnd()
+    {
+        mentalPoint = maxMP;
+        animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
+        transform.position = defaultPosition;
+    }
 }

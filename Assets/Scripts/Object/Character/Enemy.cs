@@ -39,7 +39,7 @@ public class Enemy : Character
                 {
                     coin.BattleType = CoinBattleType.TYPE_ATTACK_COIN;
                     maxAmount = (int)attackCost / (int)price;
-                    selectAmount = Random.Range(1, maxAmount);
+                    selectAmount = Random.Range(maxAmount/3, maxAmount);
                     coin.CoinAmountInBattle = selectAmount;
                     attackCost -= coin.CoinAmountInBattle*price;
                 }
@@ -52,7 +52,7 @@ public class Enemy : Character
                 {
                     coin.BattleType = CoinBattleType.TYPE_DEFFENCE_COIN;
                     maxAmount = (int)attackCost / (int)price;
-                    selectAmount = Random.Range(1, maxAmount);
+                    selectAmount = Random.Range(maxAmount / 3, maxAmount);
                     coin.CoinAmountInBattle = selectAmount;
                     deffenceCost -= coin.CoinAmountInBattle * price;
                 }

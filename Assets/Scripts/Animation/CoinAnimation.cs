@@ -147,7 +147,7 @@ public class CoinAnimation : MonoBehaviour
             case CoinAnimType.TYPE_GATE_BABYLON_ANIM:
                 for (int i = 0; i < coinObjectList.Count; ++i)
                 {
-                    Vector3 dir = attackTarget.position - coinObjectList[i].transform.position;
+                    Vector3 dir = (attackTarget.position + new Vector3(0, 1)) - coinObjectList[i].transform.position;
 
                     if (dir.sqrMagnitude < Random.Range(0.5f,1))
                     {

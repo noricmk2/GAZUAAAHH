@@ -123,7 +123,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
                 break;
             }
-            MarketManager.Instance.RenderLineGraph(pair.Key, 1);
+            MarketManager.Instance.RenderLineGraph(pair.Key,1);
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true, true);
             yield return new WaitForSeconds(1);
             if (skip == true)
@@ -176,7 +176,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
             {
                 playerAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
-                if (coin.MarketInfo.DifferPrice < 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
+                if (coin.MarketInfo.DifferPrice <= 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
                     player.CoinAnimationPlay = false;
             }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
@@ -193,7 +193,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
             {
                 enemyAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
-                if (coin.MarketInfo.DifferPrice < 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
+                if (coin.MarketInfo.DifferPrice <= 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
                     _enemy.CoinAnimationPlay = false;
             }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)

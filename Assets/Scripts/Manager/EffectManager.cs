@@ -11,7 +11,7 @@ public class EffectManager : MonoSingleton<EffectManager>
         listEffect = new List<BaseEffect>();
     }
 
-    public void CreateEffect(Vector3 _position, float _playTime, string _path)
+    public BaseEffect CreateEffect(Vector3 _position, float _playTime, string _path)
     {
 
         GameObject effect = Instantiate(Resources.Load(_path) as GameObject, _position, Quaternion.identity);
@@ -21,9 +21,10 @@ public class EffectManager : MonoSingleton<EffectManager>
         baseEffect.playTime = _playTime;
         
         listEffect.Add(baseEffect);
+        return baseEffect;
     }
 
-    public void CreateEffect(Vector3 _position, float _playTime, string _path,Quaternion quaternion)
+    public BaseEffect CreateEffect(Vector3 _position, float _playTime, string _path,Quaternion quaternion)
     {
 
         GameObject effect = Instantiate(Resources.Load(_path) as GameObject, _position, quaternion);
@@ -33,6 +34,12 @@ public class EffectManager : MonoSingleton<EffectManager>
         baseEffect.playTime = _playTime;
         
         listEffect.Add(baseEffect);
+        return baseEffect;
+    }
+
+    public void DestroyEffect(BaseEffect effect)
+    {
+        effect.isEnd = true;
     }
 
     public void Update()

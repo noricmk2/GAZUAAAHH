@@ -37,7 +37,8 @@ public class CoinManager : MonoSingleton<CoinManager>
         Coin coin = null;
         CoinName coinName = (CoinName)System.Enum.Parse(typeof(CoinName), name);
 
-        coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], coinName, new BaseSkill());
+        coin = new Coin(coinData.dicCoinInfo[CoinInfo.Price], coinName, SkillManager.Instance.SkillInit((SkillType)coinData.dicCoinInfo[CoinInfo.Skill]));
+        coin.CoinSkill.Init(coin);
         coin.CoinAmount = (int)coinData.dicCoinInfo[CoinInfo.Amount];
 
         return coin;

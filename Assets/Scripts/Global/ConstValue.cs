@@ -22,6 +22,8 @@ public static class ConstValue
     public const string coinpath = "JsonTemplate/COIN_TEMPLATE";
     public const string EnemyCoinPath = "JsonTemplate/ENEMY_COIN_TEMPLATE";
 
+    public const string ShiledEffect = "Prefab/Effect/Shiled";
+
     public const int FirstRound = 7;
     public const int SecondRound = 19;
     public const int ThirdRound = 43;

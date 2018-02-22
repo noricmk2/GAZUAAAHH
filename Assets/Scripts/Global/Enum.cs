@@ -135,14 +135,11 @@ public enum EffectType // 02/05일 추가
     TYPE_EFFECT_NORMAL,
 }
 
-public enum SkillType // 02/05일 추가 0207변경
+public enum SkillType // 0222변경
 {
+    TYPE_NONE,
     TYPE_DEFFENCE,
-    TYPE_ATTACK,
-    TYPE_BUFF,
-    TYPE_DEBUFF,
-    TYPE_COUNTER
-
+    TYPE_ATTACK,    
 }
 
 public enum ResultType
