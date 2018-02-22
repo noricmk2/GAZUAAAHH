@@ -214,17 +214,34 @@ public class TradePanel : MonoBehaviour
         int amount = int.Parse(aField.text);
         float price = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice * amount;
 
-        if(amount < 0)
+        if (amount < 0)
         {
             aField.text = "0";
             return;
         }
 
-        if (price > player.CurrentProperty)
+        switch (SellBuyType)
         {
-            int maxAmount = (int)(player.CurrentProperty / _currentSelectCoin.MarketInfo.CurrentPrice);
-            aField.text = maxAmount.ToString();
-            return;
+            case TradeType.TYPE_TRADE_BUY:
+                {
+                    if (price > player.CurrentProperty)
+                    {
+                        int maxAmount = (int)(player.CurrentProperty / _currentSelectCoin.MarketInfo.CurrentPrice);
+                        aField.text = maxAmount.ToString();
+                        return;
+                    }
+                }
+                break;
+            case TradeType.TYPE_TRADE_SELL:
+                {
+                    if (amount > player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount)
+                    {
+                        int maxAmount = player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount;
+                        aField.text = maxAmount.ToString();
+                        return;
+                    }
+                }
+                break;
         }
     }
 

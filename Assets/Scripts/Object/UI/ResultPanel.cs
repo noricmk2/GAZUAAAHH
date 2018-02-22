@@ -42,6 +42,7 @@ public class ResultPanel : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
+        GameManager.Instance.PlayerCharacter.SetView(false);
         Destroy(BattleManager.Instance.StageMap);
         Destroy(BattleManager.Instance.EnemyCharacter.gameObject);
         UIManager.Instance.SetSceneUI(UIType.TYPE_UI_LOBBY);

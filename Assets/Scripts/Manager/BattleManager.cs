@@ -123,7 +123,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
                 break;
             }
-            MarketManager.Instance.RenderLineGraph(pair.Key);
+            MarketManager.Instance.RenderLineGraph(pair.Key, 1);
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true, true);
             yield return new WaitForSeconds(1);
             if (skip == true)

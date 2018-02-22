@@ -228,6 +228,9 @@ public class UIManager : MonoSingleton<UIManager>
                     }
                     else
                     {
+                        if (BattleCanvasUI != null)
+                            Destroy(BattleCanvasUI.gameObject);
+                        LobbyCanvasUI.gameObject.SetActive(true);
                         if (TradePanelUI != null)
                         {
                             TradePanelUI.gameObject.SetActive(false);
@@ -315,7 +318,6 @@ public class UIManager : MonoSingleton<UIManager>
                         }
 
                         //배틀씬의 UI정보를 받아옴
-                        //BattleCanvas battleCanvas = CurrentUIScreen.GetComponent<BattleCanvas>();
                         GameObject coinScroll = BattleCanvasUI.GetCoinScrollObject();
                         Transform scrollContent = coinScroll.transform.GetChild(0).GetChild(0);
 
