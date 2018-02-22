@@ -151,3 +151,8 @@ public enum ResultType
     TYPE_RESULT_DEFEAT,
 }
 
+public enum TradeType
+{
+    TYPE_TRADE_BUY,
+    TYPE_TRADE_SELL,
+}

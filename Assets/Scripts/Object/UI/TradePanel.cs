@@ -11,6 +11,8 @@ public class TradePanel : MonoBehaviour
     InputField amountField;
     Button maxButton;
     Button orderButton;
+    Toggle buyToggle;
+    Toggle sellToggle;
 
     float deltaTime = 0;
     float renewTime = 2.0f;
@@ -20,6 +22,11 @@ public class TradePanel : MonoBehaviour
     {
         get { return _currentSelectCoin; }
         set { _currentSelectCoin = value; }
+    }
+
+    public TradeType SellBuyType
+    {
+        get; set;
     }
 
     CoinName PrevSelectCoin
@@ -42,6 +49,7 @@ public class TradePanel : MonoBehaviour
         maxButton = transform.GetChild(5).GetComponent<Button>();
 
         PrevSelectCoin = CoinName.NONE;
+        SellBuyType = TradeType.TYPE_TRADE_BUY;
 
         CoinToggleSelect(null);
     }
@@ -64,17 +72,24 @@ public class TradePanel : MonoBehaviour
     {
         TradePanel currentPanel = UIManager.Instance.TradePanelUI;
         Grapher grapher;
+        Toggle coinToggle = null;
         CoinName cName = CoinName.NONE;
 
         if (coinText != null)
         {
             string text = coinText.text;
             cName = (CoinName)System.Enum.Parse(typeof(CoinName), text);
+
+            Transform scorllContent = currentPanel.GetCoinScrollContent();
+            coinToggle = scorllContent.Find(cName.ToString()).GetComponent<Toggle>();
         }
         else
             cName = CoinName.NEETCOIN;
 
         currentPanel.CurrentSelectCoin = CoinManager.Instance.GetCoinDictionary()[cName];
+
+        if (coinToggle != null && coinToggle.isOn == false)
+            return;
 
         if (currentPanel.PrevSelectCoin == cName)
             return;
@@ -117,8 +132,29 @@ public class TradePanel : MonoBehaviour
         Player player = GameManager.Instance.PlayerCharacter;
         InputField aField = currentPanel.GetAmountField();
 
-        int maxAmount = (int)(player.CurrentProperty / _currentSelectCoin.MarketInfo.CurrentPrice);
-        aField.text = maxAmount.ToString();
+        switch (currentPanel.SellBuyType)
+        {
+            case TradeType.TYPE_TRADE_BUY:
+                {
+                    int maxAmount = (int)(player.CurrentProperty / currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice);
+                    aField.text = maxAmount.ToString();
+                }
+                break;
+            case TradeType.TYPE_TRADE_SELL:
+                {
+                    if (player.DicCoin.ContainsKey(currentPanel.CurrentSelectCoin.Name) == false)
+                    {
+                        Transform parentTrans = UIManager.Instance.GraphCanvasTrans;
+                        UIManager.Instance.SetPopup("You don't have this coin", "OK", parentTrans);
+                        return;
+                    }
+                    int maxAmount = (int)(player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount);
+                    aField.text = maxAmount.ToString();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void ClickOrderButton()
@@ -129,14 +165,40 @@ public class TradePanel : MonoBehaviour
         int amount = int.Parse(aField.text);
         float price = currentPanel.CurrentSelectCoin.MarketInfo.CurrentPrice * amount;
 
-        if (player.CurrentProperty < price || price == 0)
-            return;
+        switch (currentPanel.SellBuyType)
+        {
+            case TradeType.TYPE_TRADE_BUY:
+                {
+                    if (player.CurrentProperty < price || price == 0)
+                        return;
 
-        player.CurrentProperty -= price;
-        Coin target = CoinManager.Instance.GetCoinDictionary()[currentPanel.CurrentSelectCoin.Name];
-        player.DicCoin.Add(currentPanel.CurrentSelectCoin.Name, new Coin(target));
-        player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount += amount;
-        aField.text = "0";
+                    player.CurrentProperty -= price;
+                    Coin target = CoinManager.Instance.GetCoinDictionary()[currentPanel.CurrentSelectCoin.Name];
+                    if(player.DicCoin.ContainsKey(currentPanel.CurrentSelectCoin.Name) == false)
+                        player.DicCoin.Add(currentPanel.CurrentSelectCoin.Name, new Coin(target));
+
+                    player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount += amount;
+                    aField.text = "0";
+                }
+                break;
+            case TradeType.TYPE_TRADE_SELL:
+                {
+                    if (price == 0)
+                        return;
+
+                    if (player.DicCoin.ContainsKey(currentPanel.CurrentSelectCoin.Name) == false)
+                    {
+                        Transform parentTrans = UIManager.Instance.GraphCanvasTrans;
+                        UIManager.Instance.SetPopup("You don't have this coin", "OK", parentTrans);
+                        return;
+                    }
+
+                    player.CurrentProperty += price;
+                    player.DicCoin[currentPanel.CurrentSelectCoin.Name].CoinAmount -= amount;
+                    aField.text = "0";
+                }
+                break;
+        }
     }
 
     public void ClickOKButton()
@@ -164,6 +226,16 @@ public class TradePanel : MonoBehaviour
             aField.text = maxAmount.ToString();
             return;
         }
+    }
+
+    public void ChangeSellBuyToggle(Toggle toggle)
+    {
+        if (toggle.isOn == false)
+            return;
+        if (toggle.gameObject.name.Contains("Sell"))
+            SellBuyType = TradeType.TYPE_TRADE_SELL;
+        else
+            SellBuyType = TradeType.TYPE_TRADE_BUY;
     }
 
     public Transform GetCoinScrollContent()
@@ -224,5 +296,25 @@ public class TradePanel : MonoBehaviour
             return null;
         }
         return orderButton;
+    }
+
+    public Toggle GetBuyToggle()
+    {
+        if (buyToggle == null)
+        {
+            Debug.LogError("BuyToggle is not exist");
+            return null;
+        }
+        return buyToggle;
+    }
+
+    public Toggle GetSellToggle()
+    {
+        if (sellToggle == null)
+        {
+            Debug.LogError("SellToggle is not exist");
+            return null;
+        }
+        return sellToggle;
     }
 }

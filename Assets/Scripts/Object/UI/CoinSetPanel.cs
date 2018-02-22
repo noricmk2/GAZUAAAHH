@@ -36,7 +36,7 @@ public class CoinSetPanel : MonoBehaviour
         //코인이 이미 한번 세팅되었다면, 다시 세팅할지 물어보고 이전 세팅 초기화
         if (settingCoin.BattleType != CoinBattleType.TYPE_NORMAL_COIN)
         {
-            UIManager.Instance.SetPopup("Do you want change coin set?", "OK" , "Cancle", 2, 
+            UIManager.Instance.SetPopup("Do you want change coin set?", "OK" , null, "Cancle", 2, 
             () => 
             {
                 settingCoin.BattleType = CoinBattleType.TYPE_NORMAL_COIN;

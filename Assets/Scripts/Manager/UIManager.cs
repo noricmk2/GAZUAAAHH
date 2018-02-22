@@ -20,6 +20,10 @@ public class UIManager : MonoSingleton<UIManager>
 
     GameObject graphCameraPrefab; //그래프용 카메라의 프리팹
     Transform graphCanvasTrans; //그래프용 캔버스의 트랜스폼
+    public Transform GraphCanvasTrans
+    {
+        get { return graphCanvasTrans; }
+    }
 
     GameObject currentBattlegraph; //배틀씬중, 현재 그려지는 그래프
     GameObject antiInteractivePanel; //터치방지용 패널
@@ -197,9 +201,14 @@ public class UIManager : MonoSingleton<UIManager>
                             foreach (KeyValuePair<CoinName, Coin> pair in dicCoin)
                             {
                                 GameObject coinToggleObj = Instantiate(coinTogglePrefab);
+                                Toggle coinToggle = coinToggleObj.GetComponent<Toggle>();
                                 Text coinText = coinToggleObj.transform.GetComponentInChildren<Text>();
+
+                                coinToggleObj.name = pair.Key.ToString();
                                 coinText.text = pair.Key.ToString();
                                 coinToggleObj.transform.SetParent(scrollTrans, false);
+
+                                coinToggle.group = TradePanelUI.GetCoinScrollContent().GetComponent<ToggleGroup>();
                             }
                         }
                     }
@@ -230,7 +239,7 @@ public class UIManager : MonoSingleton<UIManager>
     }
 
     //내용과 원버튼, 투버튼, OnCilck메서드를 세팅할수 있는 팝업창을 만드는 메서드
-    public void SetPopup(string content, string btnText, string btnText2 = null, int btnCount = 1, 
+    public void SetPopup(string content, string btnText, Transform parentCanvas = null, string btnText2 = null, int btnCount = 1, 
         UnityAction function1 = null, UnityAction function2 = null)
     {
         if (CurrentUIScreen == null)
@@ -239,7 +248,11 @@ public class UIManager : MonoSingleton<UIManager>
             return;
         }
 
-        GameObject popup = Instantiate(popupPrefab, CurrentUIScreen.transform);
+        GameObject popup = null;
+        if (parentCanvas == null)
+            popup = Instantiate(popupPrefab, CurrentUIScreen.transform);
+        else
+            popup = Instantiate(popupPrefab, parentCanvas);
         Text popupText = popup.transform.GetChild(0).GetComponent<Text>();
         Button confirmBtn = popup.transform.GetChild(1).GetComponent<Button>();
         Button cancleBtn = popup.transform.GetChild(2).GetComponent<Button>();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoSingleton<BattleManager>
 {
-    GameObject StageMap;
+    public GameObject StageMap;
 
     GameObject enemyPrefab;
     bool skip = false;
