@@ -12,7 +12,7 @@ public class MarketManager : MonoSingleton<MarketManager>
 
         foreach (KeyValuePair<CoinName, Coin> pair in CoinManager.Instance.GetCoinDictionary())
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 50; i++)
                 MarketManager.Instance.ChangeMarketInfo(pair.Key);
         }
     }
@@ -106,7 +106,6 @@ public class MarketManager : MonoSingleton<MarketManager>
         }
         cmInfo.CurrentPrice = setPrice;
         cmInfo.AddPriceList(setPrice);
-        //Debug.Log(cmInfo.CurrentPrice);
 
         //이전 시세와의 차를 계산
         float differ = cmInfo.CurrentPrice - cmInfo.PrevPrice;

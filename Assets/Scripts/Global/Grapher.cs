@@ -106,12 +106,20 @@ public class Grapher : MonoBehaviour
                     //리스트에 있는 정점의 수가 지정한 정점의 총합보다 커지면 선두에 있는 정점을 제거하고 각 정점의 x위치를 재조정
                     if (listPoint.Count > pointCount)
                     {
-                        listPoint.RemoveAt(0);
-                        for(int i=0; i<listPoint.Count; ++i)
+                        int removeCount = listPoint.Count - pointCount;
+                        Vector3[] tempVector = new Vector3[pointCount];
+
+                        for (int i = removeCount; i < listPoint.Count; ++i)
                         {
-                            Vector3 temp = listPoint[i];
-                            temp.x -= interval;
-                            listPoint[i] = temp;
+                            int arrIndex = i - removeCount;
+                            tempVector[arrIndex] = listPoint[i - 1];
+                            tempVector[arrIndex].x = listPoint[arrIndex].x;
+                        }
+                        listPoint.Clear();
+
+                        for (int i = 0; i < tempVector.Length; ++i)
+                        {
+                            listPoint.Add(tempVector[i]);
                         }
                     }
 
@@ -152,7 +160,7 @@ public class Grapher : MonoBehaviour
                     //정점리스트를 초기화
                     Vector3 tempPos = rectTrans.position;
                     tempPos.x = rectTrans.rect.width * -0.5f;
-                    //tempPos.z += 1f;
+
                     for (int i =0; i < priceList.Count; ++i)
                     {
                         float per = Mathf.InverseLerp(cmInfo.MinFlucRange, cmInfo.MaxFlucRange, priceList[i]);
