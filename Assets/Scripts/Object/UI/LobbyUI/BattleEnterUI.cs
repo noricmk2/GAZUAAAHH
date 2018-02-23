@@ -22,12 +22,20 @@ public class BattleEnterUI : BaseObject {
 
     public void BattleStart()
     {
-        LobbyCanvas lobby = GetComponentInParent<LobbyCanvas>();
-        gameObject.SetActive(false);
-        lobby.LobbyOut();
+        if (GameManager.Instance.PlayerCharacter.DicCoin.Count < 1)
+        {
+            UIManager.Instance.SetPopup("보유한 코인이 없습니다. Market에서 코인을 구매해 주세요", "OK");
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            LobbyCanvas lobby = GetComponentInParent<LobbyCanvas>();
+            gameObject.SetActive(false);
+            lobby.LobbyOut();
 
-        GameManager.Instance.CurrentStage = stage;
-        GameManager.Instance.SceneChange(SceneType.TYPE_SCENE_BATTLE);
+            GameManager.Instance.CurrentStage = stage;
+            GameManager.Instance.SceneChange(SceneType.TYPE_SCENE_BATTLE);
+        }
     }
 	
     public void Cancle()

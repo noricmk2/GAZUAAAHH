@@ -98,7 +98,7 @@ public class TradePanel : MonoBehaviour
 
         UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_TRADE_GRAPH, cName);
         MarketManager.Instance.ChangeMarketInfo(cName);
-        grapher = MarketManager.Instance.RenderLineGraph(cName, 2, 600);
+        grapher = MarketManager.Instance.RenderLineGraph(cName, 4, 600);
 
         Vector3 graphPos = grapher.GetLastGraphPosition();
         if (graphPos != Vector3.zero)

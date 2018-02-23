@@ -12,7 +12,7 @@ public class Grapher : MonoBehaviour
     float UIMax = 0; //그래프를 그릴 UI높이의 최대값
     int pointCount = 40; //그래프를 구성할 정점의 총합
 
-    float interval = 2;
+    float interval = 4;
     public float Interval //그래프 각 점의 간격
     {
         get { return interval; }

@@ -13,8 +13,9 @@ public class Shield : BaseObject
 
     public void BreakShield()
     {
+        EffectManager.Instance.CreateEffect(transform.position, 1, ConstValue.ShiledBreak);
         EffectManager.Instance.DestroyEffect(shieldEffect);
     }
 
-	
+
 }

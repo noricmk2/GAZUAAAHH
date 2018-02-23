@@ -5,11 +5,12 @@ using UnityEngine;
 public class AttackSkill : BaseSkill
 {
 
-    public override float SkillApply(Coin usingCoin, List<Coin> listMyCoin, List<Coin> listTargetCoin)
+    public override float SkillApply(Coin usingCoin,float point)
     {
-        if (usingCoin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
-            return 1.2f;
 
-        return 1;
+        if (usingCoin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
+            return 1.2f * point;
+
+        return point;
     }
 }

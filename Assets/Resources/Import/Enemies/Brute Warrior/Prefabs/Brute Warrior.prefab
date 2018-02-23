@@ -821,7 +821,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -89.95, y: 0.013725348, z: 40.1}
+  m_LocalPosition: {x: -90, y: 0, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470372}
@@ -1801,4 +1801,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 114858387686364232, guid: 98622892bc6125945866defa009ef336, type: 2}
   mentalPoint: 2345000
+  maxMP: 0
+  defaultPosition: {x: 0, y: 0, z: 0}
   shield: {fileID: 114533029884607968}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseSkill 
 {
-    //public float scale { get; set; }
+    public SkillType skillType;
     public Coin targetCoin;
 
     public void Init(Coin coin)
@@ -12,9 +12,9 @@ public class BaseSkill
         targetCoin = coin;
     }
 
-    public virtual float SkillApply(Coin usingCoin, List<Coin> listMyCoin, List<Coin> listTargetCoin) 
+    public virtual float SkillApply(Coin usingCoin, float point) 
     {
-        return 1;
+        return point;
     }
 
 }

@@ -23,6 +23,7 @@ public static class ConstValue
     public const string EnemyCoinPath = "JsonTemplate/ENEMY_COIN_TEMPLATE";
 
     public const string ShiledEffect = "Prefab/Effect/Shiled";
+    public const string ShiledBreak = "Prefab/Effect/ShieldBreak";
 
     public const int FirstRound = 7;
     public const int SecondRound = 19;

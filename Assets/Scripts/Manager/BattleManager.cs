@@ -123,7 +123,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, false);
                 break;
             }
-            MarketManager.Instance.RenderLineGraph(pair.Key, 0.5f);
+            MarketManager.Instance.RenderLineGraph(pair.Key,0.5f);
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true, true);
             yield return new WaitForSeconds(1);
             if (skip == true)
@@ -175,12 +175,12 @@ public class BattleManager : MonoSingleton<BattleManager>
             Coin coin = playerCoinList[i];
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
             {
-                playerAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+                playerAttackPoint += (int)coin.CoinSkill.SkillApply(coin, coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle);
                 if (coin.MarketInfo.DifferPrice <= 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
                     player.CoinAnimationPlay = false;
             }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
-                playerDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+                playerDeffencePoint += (int)coin.CoinSkill.SkillApply(coin, coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle);
 
             //배틀에서 사용한 수량만큼 소유코인에서 삭감
             coin.CoinAmount -= coin.CoinAmountInBattle;
@@ -192,12 +192,12 @@ public class BattleManager : MonoSingleton<BattleManager>
             Coin coin = enemyCoinList[i];
             if (coin.BattleType == CoinBattleType.TYPE_ATTACK_COIN)
             {
-                enemyAttackPoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+                enemyAttackPoint += (int)coin.CoinSkill.SkillApply(coin, coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle);
                 if (coin.MarketInfo.DifferPrice <= 0) // 코인이 하나라도 하락세일 때 코인 애니메이션 실행하지 않음
                     _enemy.CoinAnimationPlay = false;
             }
             if (coin.BattleType == CoinBattleType.TYPE_DEFFENCE_COIN)
-                enemyDeffencePoint += (int)coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle;
+                enemyDeffencePoint += (int)coin.CoinSkill.SkillApply(coin, coin.MarketInfo.CurrentPrice * coin.CoinAmountInBattle);
 
             coin.CoinAmount -= coin.CoinAmountInBattle;
             coin.CoinAmountInBattle = 0;

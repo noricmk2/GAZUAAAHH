@@ -10,18 +10,21 @@ public class SkillManager : MonoSingleton<SkillManager> {
         {
             case SkillType.TYPE_NONE:
                 {
-                    BaseSkill baseSkill = new BaseSkill();                  
+                    BaseSkill baseSkill = new BaseSkill();
+                    baseSkill.skillType = SkillType.TYPE_NONE;
                     return baseSkill;
                 }
             case SkillType.TYPE_ATTACK:
                 {
-                    AttackSkill attackSkill = new AttackSkill();                  
+                    AttackSkill attackSkill = new AttackSkill();
+                    attackSkill.skillType = SkillType.TYPE_ATTACK;
                     return attackSkill;
                 }
 
             case SkillType.TYPE_DEFFENCE:
                 {
-                    DeffenceSkill deffenceSkill = new DeffenceSkill();                    
+                    DeffenceSkill deffenceSkill = new DeffenceSkill();
+                    deffenceSkill.skillType = SkillType.TYPE_DEFFENCE;
                     return deffenceSkill;
                 }
         }
