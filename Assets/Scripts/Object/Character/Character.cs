@@ -99,21 +99,21 @@ public class Character : BaseObject
         else
         {
             _characteType = false;
-        }
+        }       
 
         if (damage > deffencePoint) // 방어력보다 공격력이 높을 때
         {
-            mentalPoint -= (damage - deffencePoint); //데미지 적용         
+            mentalPoint -= (damage - deffencePoint); //데미지 적용   
             UIManager.Instance.CurrentUIScreen.GetComponent<BattleCanvas>().PlayerHudAnimation((damage - deffencePoint), _characteType);
+            shield.BreakShield();
             if (mentalPoint <= 0)
-            {
+            {              
                 animationPlayer.PlayAnimation(AnimationType.TYPE_DEAD);
                 UIManager.Instance.SetSceneUI(UIType.TYPE_UI_BATTLE_RESULT);
                 return;
             }
             else
-            {
-                shield.BreakShield();
+            {                
                 animationPlayer.PlayAnimation(AnimationType.TYPE_DAMAGE); //피격 애니메이션 실행                    
             }
         }
@@ -155,7 +155,7 @@ public class Character : BaseObject
         CoinAnimation = GetComponentInChildren<CoinAnimation>();
 
         Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
-        GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
+        GameObject testCoin = Resources.Load("Prefab/CoinObject") as GameObject;
 
         Transform targetTransform;
         if (target.deffencePoint >= attackPoint)        
@@ -182,7 +182,7 @@ public class Character : BaseObject
         CoinAnimation = GetComponentInChildren<CoinAnimation>();
 
         Coin testCoin1 = CoinManager.Instance.GetCoinDictionary()[CoinName.NEETCOIN];
-        GameObject testCoin = Resources.Load("Prefab/Sphere") as GameObject;
+        GameObject testCoin = Resources.Load("Prefab/CoinObject") as GameObject;
 
         Transform targetTransform;
         if (target.deffencePoint >= attackPoint)

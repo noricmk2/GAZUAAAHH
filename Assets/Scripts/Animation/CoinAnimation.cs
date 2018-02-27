@@ -130,10 +130,14 @@ public class CoinAnimation : MonoBehaviour
                         Vector3 position = coinObjectList[i].transform.position;
                         Destroy(coinObjectList[i]);
                         coinObjectList.RemoveAt(i);
-                        EffectManager.Instance.CreateEffect(position, 0.8f, "Prefab/Effect/GOBHIT");
+                        EffectManager.Instance.CreateEffect(position, 1.5f, "Prefab/Effect/CoinHitEffect");
+                        EffectManager.Instance.CreateEffect(position, 0.8f, "Prefab/Effect/GOBHit");
 
                         if (coinObjectList.Count == 0)
+                        {
                             StartAnimation = false;
+                            Destroy(parent);
+                        }
                         break;
                     }
                     else
@@ -154,10 +158,14 @@ public class CoinAnimation : MonoBehaviour
                         Vector3 position = coinObjectList[i].transform.position;
                         Destroy(coinObjectList[i]);
                         coinObjectList.RemoveAt(i);
-                        EffectManager.Instance.CreateEffect(position, 0.8f, "Prefab/Effect/GOBHIT");
+                        EffectManager.Instance.CreateEffect(position, 1.5f, "Prefab/Effect/CoinHitEffect");
+                        EffectManager.Instance.CreateEffect(position, 0.8f, "Prefab/Effect/GOBHit");
 
                         if (coinObjectList.Count == 0)
+                        {
                             StartAnimation = false;
+                            Destroy(parent);
+                        }
                         break;
                     }                   
                     else
