@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 2c8bf2faa51aac1439e19b7fbeb1ed81
+timeCreated: 1519705432
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Pixelopolis 9000
+  fontNames:
+  - Pixelopolis 9000
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

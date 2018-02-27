@@ -100,11 +100,11 @@ public class Character : BaseObject
         {
             _characteType = false;
         }
-        UIManager.Instance.CurrentUIScreen.GetComponent<BattleCanvas>().PlayerHudAnimation((damage), _characteType);
 
         if (damage > deffencePoint) // 방어력보다 공격력이 높을 때
         {
-            mentalPoint -= (damage - deffencePoint); //데미지 적용           
+            mentalPoint -= (damage - deffencePoint); //데미지 적용         
+            UIManager.Instance.CurrentUIScreen.GetComponent<BattleCanvas>().PlayerHudAnimation((damage - deffencePoint), _characteType);
             if (mentalPoint <= 0)
             {
                 animationPlayer.PlayAnimation(AnimationType.TYPE_DEAD);

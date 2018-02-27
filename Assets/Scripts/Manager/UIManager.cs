@@ -9,6 +9,7 @@ public class UIManager : MonoSingleton<UIManager>
     GameObject antiInteractivePanelPrefab; //터치방지용 패널의 프리팹
     GameObject popupPrefab; //팝업창의 프리팹
 
+    GameObject logoCanvasPrefab; //로고씬UI의 프리팹
     GameObject lobbyCanvasPrefab; //로비씬UI의 프리팹
 
     GameObject tradePanelPrefab; //거래창의 프리팹
@@ -38,6 +39,11 @@ public class UIManager : MonoSingleton<UIManager>
         get; set;
     }
 
+    public LogoImage LogoImageUI
+    {
+        get; set;
+    }
+
     public LobbyCanvas LobbyCanvasUI
     {
         get; set;
@@ -61,6 +67,7 @@ public class UIManager : MonoSingleton<UIManager>
     public void UIInit() //각 UI프리팹의 초기화
     {
         antiInteractivePanelPrefab = Resources.Load(ConstValue.AntiInteractivePanelPath) as GameObject;
+        logoCanvasPrefab = Resources.Load(ConstValue.LogoCanvasPath) as GameObject;
         lobbyCanvasPrefab = Resources.Load(ConstValue.LobbyUIPath) as GameObject;
         tradePanelPrefab = Resources.Load(ConstValue.TradePanelPath) as GameObject;
         coinTogglePrefab = Resources.Load(ConstValue.CoinTogglePath) as GameObject;
@@ -77,6 +84,18 @@ public class UIManager : MonoSingleton<UIManager>
         switch (uiType)
         {
             case UIType.TYPE_UI_TITLE:
+                {
+                    if (LogoImageUI == null)
+                    {
+                        CurrentUIScreen = Instantiate(logoCanvasPrefab);
+                        LogoImageUI = CurrentUIScreen.transform.GetComponentInChildren<LogoImage>();
+                    }
+                    else
+                    {
+                        LogoImageUI.gameObject.SetActive(true);
+                    }
+                    LogoImageUI.LogoInit();
+                }
                 break;
             case UIType.TYPE_UI_BATTLE_WAIT: //배틀씬중 입력대기상태 UI
                 {
@@ -216,6 +235,9 @@ public class UIManager : MonoSingleton<UIManager>
                 break;
             case UIType.TYPE_UI_LOBBY:
                 {
+                    if (LogoImageUI != null)
+                        LogoImageUI.transform.parent.gameObject.SetActive(false);
+
                     if (ResultPanelUI != null)
                         ResultPanelUI.gameObject.SetActive(false);
 
@@ -341,9 +363,9 @@ public class UIManager : MonoSingleton<UIManager>
 
                                 currentBattlegraph.GetComponent<UICoin>().PlayAnimation();
                                 
-                                Image graphImage = currentBattlegraph.transform.GetChild(1).GetComponent<Image>();
+                                Image graphImage = currentBattlegraph.transform.GetChild(0).GetComponent<Image>();
                                 graphImage.color = Color.white;
-                                MarketManager.Instance.RegistLineGraph(coin, graphImage.transform);
+                                MarketManager.Instance.RegistLineGraph(coin, graphImage.transform, 1);
                             }
                         }
                     }

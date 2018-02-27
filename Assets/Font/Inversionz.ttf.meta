@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 9ff4e65a02279174b9a88dd330f698ce
+timeCreated: 1519705432
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Inversionz
+  fontNames:
+  - Inversionz
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6e26ba6e9894cc94d98cb6002b35a0df, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -46,8 +46,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
-        //SceneChange(SceneType.TYPE_SCENE_LOGO);
-        SceneChange(SceneType.TYPE_SCENE_ROBBY);
+        SceneChange(SceneType.TYPE_SCENE_LOGO);
+        //SceneChange(SceneType.TYPE_SCENE_ROBBY);
         //SceneChange(SceneType.TYPE_SCENE_BATTLE);
     }
 
@@ -62,6 +62,7 @@ public class GameManager : MonoSingleton<GameManager>
         switch (_currentScene)
         {
             case SceneType.TYPE_SCENE_LOGO:
+                UIManager.Instance.SetSceneUI(UIType.TYPE_UI_TITLE);
                 break;
             case SceneType.TYPE_SCENE_ROBBY:
                 _player.SetView(false); // 2/19

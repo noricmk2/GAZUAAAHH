@@ -151,7 +151,7 @@ public class MarketManager : MonoSingleton<MarketManager>
         return result;
     }
 
-    public void RegistLineGraph(CoinName name, Transform target) //UI정보와 코인매개변수를 받아 그래프를 세팅하는 메서드
+    public void RegistLineGraph(CoinName name, Transform target, float interval = 4) //UI정보와 코인매개변수를 받아 그래프를 세팅하는 메서드
     {
         CoinMarketInfo cmInfo;
 
@@ -171,10 +171,11 @@ public class MarketManager : MonoSingleton<MarketManager>
             grapher = target.gameObject.AddComponent<Grapher>();
         }
 
+        grapher.Interval = interval;
         grapher.SetGraphTarget(GraphTarget.GRAPH_COIN, DicCoin[name], target);
     }
 
-    public Grapher RenderLineGraph(CoinName name, float interval = 2, float lineWidth = 300.0f) //그래퍼에게 그래프 값을 갱신하며 렌더를 요청하는 메서드
+    public Grapher RenderLineGraph(CoinName name, float lineWidth = 300.0f) //그래퍼에게 그래프 값을 갱신하며 렌더를 요청하는 메서드
     {
         Coin coin;
 
@@ -190,7 +191,6 @@ public class MarketManager : MonoSingleton<MarketManager>
 
         Grapher grapher = coin.GraphUI.gameObject.GetComponent<Grapher>();
         grapher.LineWidth = lineWidth;
-        grapher.Interval = interval;
         grapher.SetDraw = true;
         grapher.RenewValue(coin.MarketInfo, GraphTarget.GRAPH_COIN);
 
