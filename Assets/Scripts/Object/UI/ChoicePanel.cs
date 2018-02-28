@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChoicePanel : MonoBehaviour, IDropHandler
+public class ChoicePanel : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     GameObject coinSetPanel; //드롭 이벤트시 띄워야하는 UI의 오브젝트
     public ChoicePanelType panelType; //선택패널의 타입을 나타내는 변수
@@ -43,5 +43,20 @@ public class ChoicePanel : MonoBehaviour, IDropHandler
         //띄우는 패널을 초기화후 활성화
         coinSetPanel.GetComponent<CoinSetPanel>().PanelInit(coinTextInfo.text);
         coinSetPanel.SetActive(true);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag == null)
+            return;
+
+        Outline outline = transform.GetComponent<Outline>();
+        outline.enabled = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Outline outline = transform.GetComponent<Outline>();
+        outline.enabled = false;
     }
 }

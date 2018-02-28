@@ -111,11 +111,13 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         //코인목록별로 UIManager에게 그래프를 그려달라고 요청후 한번씩 시세변경을 시도한다
         foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
+        {
             MarketManager.Instance.ChangeMarketInfo(pair.Key);
+            listPlayerCoin.Add(pair.Value);
+        }
 
         foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
         {
-            listPlayerCoin.Add(pair.Value);
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true);
             yield return new WaitForSeconds(1);
             if (skip == true)

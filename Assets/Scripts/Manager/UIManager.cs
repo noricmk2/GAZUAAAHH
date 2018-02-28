@@ -253,6 +253,7 @@ public class UIManager : MonoSingleton<UIManager>
                         if (BattleCanvasUI != null)
                             Destroy(BattleCanvasUI.gameObject);
                         LobbyCanvasUI.gameObject.SetActive(true);
+                        CurrentUIScreen = LobbyCanvasUI.gameObject;
                         if (TradePanelUI != null)
                         {
                             TradePanelUI.gameObject.SetActive(false);
