@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 687caff35d441734796d844d293ccd37
-timeCreated: 1519718674
+guid: 854ce1ab601edac4893eaf2a034cf27b
+timeCreated: 1519798752
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -45,7 +45,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 7, y: 10, z: 7, w: 10}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -101,7 +101,7 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape: []
-  spritePackingTag: UITexture
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

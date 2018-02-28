@@ -138,6 +138,8 @@ public class UIManager : MonoSingleton<UIManager>
                     {
                         GameObject UICoin = Instantiate(coinItemPrefab);
                         Text coinText = UICoin.transform.GetComponentInChildren<Text>();
+                        Text viewText = UICoin.transform.Find("ViewText").GetComponent<Text>();
+                        viewText.text = pair.Value.ShortName;
                         coinText.text = pair.Key.ToString();
                         UICoin.transform.SetParent(contentTrans, false);
                     }
@@ -222,9 +224,11 @@ public class UIManager : MonoSingleton<UIManager>
                                 GameObject coinToggleObj = Instantiate(coinTogglePrefab);
                                 Toggle coinToggle = coinToggleObj.GetComponent<Toggle>();
                                 Text coinText = coinToggleObj.transform.GetComponentInChildren<Text>();
+                                Text viewText = coinToggleObj.transform.Find("ViewText").GetComponent<Text>();
 
                                 coinToggleObj.name = pair.Key.ToString();
                                 coinText.text = pair.Key.ToString();
+                                viewText.text = pair.Value.ShortName;
                                 coinToggleObj.transform.SetParent(scrollTrans, false);
 
                                 coinToggle.group = TradePanelUI.GetCoinScrollContent().GetComponent<ToggleGroup>();
