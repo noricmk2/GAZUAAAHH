@@ -8,13 +8,18 @@ public class ResultPanel : MonoBehaviour
     Image resultImage;
     Button returnButton;
     Animation UIAnimation;
-    string clipName = "ResultPanelAppear"; 
+    string clipName = "ResultPanelAppear";
+    Sprite winSprite;
+    Sprite loseSprite;
 
     public void ResultPanelInit()
     {
         resultImage = UIManager.Instance.ResultPanelUI.transform.GetChild(1).GetComponent<Image>();
         returnButton = UIManager.Instance.ResultPanelUI.GetComponentInChildren<Button>();
         UIAnimation = UIManager.Instance.ResultPanelUI.GetComponent<Animation>();
+
+        winSprite = Resources.Load<Sprite>(ConstValue.WinSpritePath);
+        loseSprite = Resources.Load<Sprite>(ConstValue.LoseSpritePath);
     }
 
     public void PlayDisappearAnimation() //UI가 사라질때의 애니메이션
@@ -52,12 +57,14 @@ public class ResultPanel : MonoBehaviour
 
     public void SetResultImage(ResultType type)
     {
+        resultImage = UIManager.Instance.ResultPanelUI.transform.GetChild(1).GetComponent<Image>();
         switch (type)
         {
             case ResultType.TYPE_RESULT_WIN:
-
+                resultImage.sprite = winSprite;
                 break;
             case ResultType.TYPE_RESULT_DEFEAT:
+                resultImage.sprite = loseSprite;
                 break;
         }
     }

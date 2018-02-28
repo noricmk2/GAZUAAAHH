@@ -26,6 +26,9 @@ public static class ConstValue
     public const string ShiledEffect = "Prefab/Effect/Shiled";
     public const string ShiledBreak = "Prefab/Effect/ShieldBreak";
 
+    public const string WinSpritePath = "Texture/win";
+    public const string LoseSpritePath = "Texture/lose";
+
     public const int FirstRound = 7;
     public const int SecondRound = 19;
     public const int ThirdRound = 43;

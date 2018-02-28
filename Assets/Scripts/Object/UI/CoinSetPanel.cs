@@ -11,6 +11,7 @@ public class CoinSetPanel : MonoBehaviour
     Text costText; //현재의 코스트를 나타내는 텍스트
     float settingPrice; //결정한 수량의 가격
     int settingAmount; //결정한 수량
+    GameObject coroutineObj;
 
     public Image coinItemSelectImage = null; //공,수중 무엇을 선택했는지 보여주는 이미지
 
@@ -106,8 +107,9 @@ public class CoinSetPanel : MonoBehaviour
         UIManager.Instance.SetAntiInteractivePanel(true);
         confirmBtn.interactable = false;
         //프리팹으로 불러온 현재 오브젝트에서는 코루틴을 사용할수 없기때문에, 코루틴용 임시객체를 만든후 배틀매니저의 BattleStart를 호출
-        GameObject obj = new GameObject("TempCoroutineObject");
-        CoinSetPanel comp = obj.AddComponent<CoinSetPanel>();
+        if(coroutineObj == null)
+            coroutineObj = new GameObject("TempCoroutineObject");
+        CoinSetPanel comp = coroutineObj.AddComponent<CoinSetPanel>();
         if (comp != null)
             comp.StartCoroutine(BattleManager.Instance.BattleStart());
     }
