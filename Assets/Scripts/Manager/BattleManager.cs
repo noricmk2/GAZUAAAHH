@@ -115,7 +115,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             MarketManager.Instance.ChangeMarketInfo(pair.Key);
             listPlayerCoin.Add(pair.Value);
         }
-
+         
         foreach (KeyValuePair<CoinName, Coin> pair in player.DicCoin)
         {
             UIManager.Instance.SetGraphUI(GraphType.TYPE_IN_BATTLE_GRAPH, pair.Key, true);
@@ -205,8 +205,8 @@ public class BattleManager : MonoSingleton<BattleManager>
             coin.CoinAmountInBattle = 0;
         }
 
-        player.SetBattlePoint(playerAttackPoint, playerDeffencePoint);
         _enemy.SetBattlePoint(enemyAttackPoint, enemyDeffencePoint);
+        player.SetBattlePoint(playerAttackPoint, playerDeffencePoint);
     }
 
     public void TurnEnd()

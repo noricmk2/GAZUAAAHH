@@ -53,6 +53,17 @@ public class Character : BaseObject
 
     public void Battle()
     {
+        if (isAttack == true && target.isAttack == true)
+        {
+            TurnEnd();
+            return;
+        }
+
+        if (attackPoint<=0)
+        {
+            isAttack = true;
+            target.Battle();
+        }
 
         if (isAttack == false)
         {
@@ -65,15 +76,9 @@ public class Character : BaseObject
             {
                 target.shield.CreateShield(3);
                 animationPlayer.PlayAnimation(AnimationType.TYPE_ATTACK);//공격 실행          
-            }
-
-            
-           
+            }                      
         }
-        if (isAttack == true && target.isAttack == true)
-        {
-            TurnEnd();
-        }
+        
     }
 
     public virtual void Attack()
@@ -125,14 +130,11 @@ public class Character : BaseObject
 
     public void TurnEnd()
     {
-        if (isAttack == true && target.isAttack == true)
-        {
-            if (characterType == CharacterType.TYPE_PLAYER)
-                BattleManager.Instance.TurnEnd();
+        if (characterType == CharacterType.TYPE_PLAYER)
+            BattleManager.Instance.TurnEnd();
 
-            animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
-            target.animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
-        }
+        animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
+        target.animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
     }
 
     public void CoinAnimationStart() //캐릭터 제스쳐 실행

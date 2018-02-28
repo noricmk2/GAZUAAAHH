@@ -1,59 +1,70 @@
 {
-  "COIN_TEMPLATE": {
-    "NEETCOIN": {
-      "Price": 8000000,
-      "Skill": 1,
-      "Amount": 0
-    },
-    "ATHURIUM": {
-      "Price": 800000,
-      "Skill": 0,
-      "Amount": 10
-    },
-    "SUFFLE": {
-      "Price": 800,
-      "Skill": 1,
-      "Amount": 300
-    },
-    "AOS": {
-      "Price": 9000,
-      "Skill": 2,
-      "Amount": 50
-    },
-    "NEETCOIN_CASH": {
-      "Price": 1000000,
-      "Skill": 1,
-      "Amount": 5
-    },
-    "ATHURIUM_CLASSIC": {
-      "Price": 20000,
-      "Skill": 1,
-      "Amount": 20
-    },
-    "NIGHTCOIN": {
-      "Price": 150000,
-      "Skill": 1,
-      "Amount": 10
-    },
-    "NEUTRON": {
-      "Price": 25000,
-      "Skill": 2,
-      "Amount": 20
-    },
-    "RUSH": {
-      "Price": 400000,
-      "Skill": 0,
-      "Amount": 15
-    },
-    "NEETCOIN_PLATINUM": {
-      "Price": 13000,
-      "Skill": 0,
-      "Amount": 50
-    },
-    "HARAMCOIN": {
-      "Price": 400,
-      "Skill": 0,
-      "Amount": 300
-    }
-  }
+	"COIN_TEMPLATE": {
+		"NEETCOIN": {
+			"Price": 8000000,
+			"Skill": 1,
+			"Amount": 0,
+			"ShortName": "NTC"
+		},
+		"ATHURIUM": {
+			"Price": 800000,
+			"Skill": 1,
+			"Amount": 10,
+			"ShortName": "ATH"
+		},
+		"SUFFLE": {
+			"Price": 800,
+			"Skill": 1,
+			"Amount": 300,
+			"ShortName": "SUF"
+		},
+		"AOS": {
+			"Price": 9000,
+			"Skill": 1,
+			"Amount": 50,
+			"ShortName": "AOS"
+		},
+		"NEETCOIN_CASH": {
+			"Price": 1000000,
+			"Skill": 1,
+			"Amount": 5,
+			"ShortName": "NTH"
+		},
+		"ATHURIUM_CLASSIC": {
+			"Price": 20000,
+			"Skill": 1,
+			"Amount": 20,
+			"ShortName": "ATC"
+		},
+		"NIGHTCOIN": {
+			"Price": 150000,
+			"Skill": 1,
+			"Amount": 10,
+			"ShortName": "NGT"
+		},
+		"NEUTRON": {
+			"Price": 25000,
+			"Skill": 1,
+			"Amount": 20,
+			"ShortName": "NTR"
+		},
+		"RUSH": {
+			"Price": 400000,
+			"Skill": 1,
+			"Amount": 15,
+			"ShortName": "RUS"
+		},
+		"NEETCOIN_PLATINUM": {
+			"Price": 13000,
+			"Skill": 1,
+			"Amount": 50,
+			"ShortName": "NTP"
+		},
+		"HARAMCOIN": {
+			"Price": 400,
+			"Skill": 1,
+			"Amount": 300,
+			"ShortName": "HAR"
+		}
+	}
 }

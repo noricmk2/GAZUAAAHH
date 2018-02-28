@@ -8,7 +8,6 @@ public class MarketButton : BaseObject {
     public void MarketView()
     {
         LobbyCanvas lobby = GetComponentInParent<LobbyCanvas>();
-        //lobby.LobbyOut();
         UIManager.Instance.SetSceneUI(UIType.TYPE_UI_TRADE);
     }
 

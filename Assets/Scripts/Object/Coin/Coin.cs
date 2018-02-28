@@ -21,6 +21,11 @@ public class Coin
         get; set;
     }
 
+    public string ShortName
+    {
+        get;set;
+    }
+
     public int CoinAmount //캐릭터가 가진 코인의 총량
     {
         get; set;
@@ -56,10 +61,11 @@ public class Coin
         get; set;
     }
 
-    public Coin(float price, CoinName name, BaseSkill skill)
+    public Coin(float price, CoinName name, BaseSkill skill, string shortName)
     {
         _marketInfo = new CoinMarketInfo(price);
         Name = name;
+        ShortName = shortName;
         CoinSkill = skill;
         Seed1 = Random.Range(0, 100);
         Seed2 = Seed1;
@@ -70,6 +76,7 @@ public class Coin
     {
         _marketInfo = coin.MarketInfo;
         Name = coin.Name;
+        ShortName = coin.ShortName;
         CoinSkill = coin.CoinSkill;
         Seed1 = coin.Seed1;
         Seed2 = coin.Seed2;

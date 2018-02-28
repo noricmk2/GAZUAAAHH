@@ -92,6 +92,7 @@ public enum CoinInfo // 02/05일 추가
     Price,
     Skill,
     Amount,
+    ShortName,
     MAX
 }
 

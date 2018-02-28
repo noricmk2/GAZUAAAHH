@@ -13,6 +13,6 @@ public class UIText : BaseObject {
 
     public override void CustomUpdate()
     {
-        text.text = "자산\n" + GameManager.Instance.PlayerCharacter.CurrentProperty;
+        text.text = "자산\n" + (double)GameManager.Instance.PlayerCharacter.CurrentProperty;
     }
 }

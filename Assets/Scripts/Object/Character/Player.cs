@@ -26,8 +26,12 @@ public class Player : Character
 
     public void BattleEnd()
     {
+        if (mentalPoint > 0)
+        {
+            _currentProperty += 10000000f;
+        }
         mentalPoint = maxMP;
         animationPlayer.PlayAnimation(AnimationType.TYPE_IDLE);
-        transform.position = defaultPosition;
+        transform.position = defaultPosition;       
     }
 }
