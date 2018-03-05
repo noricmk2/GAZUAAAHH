@@ -15,7 +15,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler , IDragHandler, IEndDr
     {
         CanvasTrans = GameObject.FindGameObjectWithTag("Canvas").transform; //현재 화면상의 캔버스를 찾아온다
         orgImage = this.GetComponentsInChildren<Image>();
-        orgText = this.GetComponentInChildren<Text>();
+        orgText = this.transform.Find("ViewText").GetComponent<Text>();
     }
 
     public void OnBeginDrag(PointerEventData eventData) //드래그가 시작되면 복제본을 프리팹에서 불러오고 원본의 이미지와 텍스트를 비활성화
